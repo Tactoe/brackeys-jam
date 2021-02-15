@@ -15,6 +15,7 @@ public class Pawn : MonoBehaviour
     [SerializeField] private Position pos;
     [SerializeField] BattleGrid currentGrid;
     [SerializeField] private float refillSpeed, refillAmount;
+    [SerializeField] private string target;
     private float stamina;
     [SerializeField] private GameObject bulletPrefab;
 
@@ -41,7 +42,7 @@ public class Pawn : MonoBehaviour
         var tmp = Instantiate(bulletPrefab);
         tmp.transform.position = transform.position;
         tmp.transform.forward = transform.forward;
-        bulletPrefab.GetComponent<Bullet>().target = "Enemy";
+        tmp.GetComponent<Bullet>().target = target;
     }
 
     internal void DoAction(KeyCode action)

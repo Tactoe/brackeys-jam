@@ -34,7 +34,6 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        print("reload");
         Time.timeScale = 1;
         pauseMenu.SetActive(false);
     }

@@ -4,6 +4,70 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public class ActionRecorder : MonoBehaviour
+{
+    private List<TimeNode> recordingTimeline, previousTimeline;
+    [SerializeField] private GameObject dopelGO;
+    
+    private float currentTime;
+    private float lastTimeSaved;
+    
+    
+    public static ActionRecorder Instance;
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+    
+    void Start()
+    {
+        recordingTimeline = new List<TimeNode>();
+        lastTimeSaved = Time.time;
+    }
+    
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        previousTimeline = recordingTimeline;
+        recordingTimeline = new List<TimeNode>();
+        if (previousTimeline != null && previousTimeline.Count > 0)
+            StartCoroutine(Replay());
+    }
+    
+    public void AddAction(KeyCode action)
+    {
+        recordingTimeline.Add(new TimeNode(action, Time.time - lastTimeSaved));
+        lastTimeSaved = Time.time;
+    }
+
+    IEnumerator Replay()
+    {
+        int i = 0;
+        GameObject dopel = Instantiate(dopelGO);
+        Pawn dopelPawn = dopel.GetComponent<Pawn>();
+        while (i < previousTimeline.Count)
+        {
+            yield return new WaitForSeconds(previousTimeline[i].nextActionTimer);
+            dopelPawn.DoAction(previousTimeline[i].action);
+            i++;
+        }
+        Destroy(dopel);
+    }
+}
+
 class TimeNode
 {
     internal KeyCode action;
@@ -13,48 +77,5 @@ class TimeNode
     {
         action = _action;
         nextActionTimer = _next;
-    }
-}
-public class ActionRecorder : MonoBehaviour
-{
-    private List<TimeNode> timeline;
-    [SerializeField] private GameObject dopelGO;
-
-    private float currentTime;
-
-    private float lastTimeSaved;
-    // Start is called before the first frame update
-    void Start()
-    {
-        timeline = new List<TimeNode>();
-        DontDestroyOnLoad(gameObject);
-        lastTimeSaved = Time.time;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.T))
-            StartCoroutine(Replay());
-    }
-    
-    public void AddAction(KeyCode action)
-    {
-        timeline.Add(new TimeNode(action, Time.time - lastTimeSaved));
-        lastTimeSaved = Time.time;
-    }
-
-    IEnumerator Replay()
-    {
-        int i = 0;
-        GameObject dopel = Instantiate(dopelGO);
-        Pawn dopelPawn = dopel.GetComponent<Pawn>();
-        while (i < timeline.Count)
-        {
-            yield return new WaitForSeconds(timeline[i].nextActionTimer);
-            dopelPawn.DoAction(timeline[i].action);
-            i++;
-        }
-        Destroy(dopel);
     }
 }

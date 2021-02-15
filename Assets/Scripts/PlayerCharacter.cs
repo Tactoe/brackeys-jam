@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Profiling;
@@ -41,5 +42,16 @@ public class PlayerCharacter : MonoBehaviour
                 rec.AddAction(keyCode);
             }
         }
+    }
+
+    private void OnDestroy()
+    {
+        DeathFunction();
+        Invoke("DeathFunction", 2);
+    }
+
+    private void DeathFunction()
+    {
+       GameManager.Instance.ReloadScene();
     }
 }
