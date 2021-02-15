@@ -9,23 +9,16 @@ public class GameManager : MonoBehaviour
 
     public GameObject pauseMenu;
 
-    public bool murderMode;
-
     void Awake()
     {
-
         if (Instance == null)
         {
-
             Instance = this;
             DontDestroyOnLoad(this.gameObject);
-
-            //Rest of your Awake code
-
         }
         else
         {
-            Destroy(this);
+            Destroy(gameObject);
         }
     }
 
@@ -33,10 +26,21 @@ public class GameManager : MonoBehaviour
     {
         pauseMenu.SetActive(false);
     }
+    
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        print("reload");
+        Time.timeScale = 1;
+        pauseMenu.SetActive(false);
+    }
 
     public void ExitGame()
     {
-        print("exited");
         if (Application.platform == RuntimePlatform.WebGLPlayer)
         {
             SceneManager.LoadScene(4);
@@ -47,13 +51,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void OnLevelWasLoaded(int level)
-    {
-        if (SceneManager.GetActiveScene().buildIndex < 2)
-            murderMode = false;
-        Time.timeScale = 1;
-        pauseMenu.SetActive(false);
-    }
 
     public void ReloadScene()
     {
@@ -70,27 +67,15 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
-    public void HandleEndScene(bool isRetrying)
-    {
-        if (murderMode)
-        {
-            NextScene();
-        }
-        else
-        {
-            if (isRetrying)
-                ReloadScene();
-            else
-                ExitGame();
-        }
-    }
-
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && pauseMenu != null)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            pauseMenu.SetActive(!pauseMenu.activeInHierarchy);
-            Time.timeScale = pauseMenu.activeInHierarchy ? 0 : 1;
+            if (pauseMenu != null)
+            {
+                pauseMenu?.SetActive(!pauseMenu.activeInHierarchy);
+                Time.timeScale = pauseMenu.activeInHierarchy ? 0 : 1;
+            }
         }
     }
 
