@@ -5,6 +5,15 @@ using UnityEngine;
 using UnityEngine.Profiling;
 // ReSharper disable All
 
+class Character : MonoBehaviour
+{
+    
+}
+
+class Enemy : Character
+{
+    
+}
 
 public class PlayerCharacter : MonoBehaviour
 {

@@ -5,6 +5,15 @@ using UnityEngine;
 public class EnnemyCharacter : MonoBehaviour
 {
     private Pawn pawn;
+    
+    private readonly KeyCode[] keyCodes = new []
+    {
+        KeyCode.LeftArrow,
+        KeyCode.RightArrow,
+        KeyCode.UpArrow,
+        KeyCode.DownArrow, 
+        KeyCode.Space
+    };
     // Start is called before the first frame update
     void Start()
     {
@@ -17,11 +26,8 @@ public class EnnemyCharacter : MonoBehaviour
     {
         while (true)
         {
-            pawn.DoAction(KeyCode.LeftArrow);
+            pawn.DoAction(Random.Range(0, 1) == 1 ? KeyCode.Space : keyCodes[Random.Range(0, keyCodes.Length)]);
             yield return new WaitForSeconds(0.5f);
-            pawn.DoAction(KeyCode.RightArrow);
-            yield return new WaitForSeconds(0.5f);
-            pawn.DoAction(KeyCode.Space);
         }
     }
 }

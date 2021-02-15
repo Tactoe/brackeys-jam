@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [Serializable]
 public class Position
@@ -12,12 +13,19 @@ public class Position
 
 public class Pawn : MonoBehaviour
 {
+    [SerializeField] private bool usesStamina;
     [SerializeField] private Position pos;
     [SerializeField] BattleGrid currentGrid;
-    [SerializeField] private float refillSpeed, refillAmount;
+    [SerializeField] private float refillAmount;
     [SerializeField] private string target;
-    private float stamina;
+    private float stamina, maxStamina;
+    private float health;
+    
+    [SerializeField] private int maxHealth = 50;
     [SerializeField] private GameObject bulletPrefab;
+
+    [SerializeField] private Image staminaBar, healthBar;
+    private Camera _camera;
 
     private void Awake()
     {
@@ -34,7 +42,26 @@ public class Pawn : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        health = maxHealth;
+        if (usesStamina)
+        {
+            maxStamina = 100;
+            stamina = maxStamina;
+            _camera = Camera.main;
+        }
         UpdatePos();
+    }
+    
+    void Update()
+    {
+        if (usesStamina)
+        {
+            if (stamina < 100)
+            {
+                stamina += refillAmount * Time.deltaTime;
+                staminaBar.fillAmount = stamina / maxStamina;
+            }
+        }
     }
 
     internal void Shoot()
@@ -47,6 +74,12 @@ public class Pawn : MonoBehaviour
 
     internal void DoAction(KeyCode action)
     {
+        if (usesStamina)
+        {
+            if (stamina < maxStamina) return;
+            stamina = 0;
+        }
+        
         if (action == KeyCode.Space)
             Shoot();
         if (action == KeyCode.LeftArrow || action == KeyCode.RightArrow)
@@ -54,9 +87,19 @@ public class Pawn : MonoBehaviour
         if (action == KeyCode.UpArrow || action == KeyCode.DownArrow)
             pos.y += action == KeyCode.UpArrow ? 1 : -1;
         UpdatePos();
-        
-        stamina = 0;
-        StartCoroutine(Refill());
+    }
+
+    public void GetHit(int damage)
+    {
+        if (health - damage > 0)
+        {
+            health -= damage;
+            healthBar.fillAmount = health / maxHealth;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     void UpdatePos()
@@ -67,18 +110,5 @@ public class Pawn : MonoBehaviour
         transform1.localPosition = new Vector3(pos.x, transform1.position.y, pos.y);
     }
     
-    IEnumerator Refill()
-    {
-        while (stamina < 100)
-        {
-            stamina += refillAmount;
-            yield return new WaitForSeconds(refillSpeed);
-        }
-    }
-    
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

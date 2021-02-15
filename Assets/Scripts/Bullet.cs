@@ -26,7 +26,7 @@ public class Bullet : MonoBehaviour
     {
         if (other.gameObject.CompareTag(target))
         {
-            Destroy(other.gameObject);
+            other.gameObject.GetComponent<Pawn>().GetHit(10);
             Destroy(gameObject);
         }
     }
