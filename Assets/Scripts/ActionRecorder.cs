@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using UnityEditor.Build.Content;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -41,6 +42,8 @@ public class ActionRecorder : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        print("Restarted, i should be 0");
+        StopCoroutine(Replay());
         previousTimeline = recordingTimeline;
         recordingTimeline = new List<TimeNode>();
         if (previousTimeline != null && previousTimeline.Count > 0)
@@ -57,11 +60,16 @@ public class ActionRecorder : MonoBehaviour
     {
         int i = 0;
         GameObject dopel = Instantiate(dopelGO);
-        Pawn dopelPawn = dopel.GetComponent<Pawn>();
-        while (i < previousTimeline.Count)
+        Character dopelPawn = dopel.GetComponent<PastSelf>();
+        while (i < previousTimeline.Count && previousTimeline != null && dopelPawn != null)
         {
+            print("looping is " + i);
             yield return new WaitForSeconds(previousTimeline[i].nextActionTimer);
-            dopelPawn.DoAction(previousTimeline[i].action);
+            if (dopelPawn != null)
+            {
+                print("stuff");
+                dopelPawn.TryAction(previousTimeline[i].action);
+            }
             i++;
         }
         Destroy(dopel);

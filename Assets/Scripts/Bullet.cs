@@ -7,6 +7,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public float speed = 1;
+    public float damage;
 
     public string target;
     // Start is called before the first frame update
@@ -26,7 +27,7 @@ public class Bullet : MonoBehaviour
     {
         if (other.gameObject.CompareTag(target))
         {
-            other.gameObject.GetComponent<Pawn>().GetHit(10);
+            other.gameObject.GetComponent<Character>().GetHit(damage);
             Destroy(gameObject);
         }
     }

@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnnemyCharacter : MonoBehaviour
+public class EnnemyCharacter : Character
 {
-    private Pawn pawn;
-    
     private readonly KeyCode[] keyCodes = new []
     {
         KeyCode.LeftArrow,
@@ -17,7 +15,7 @@ public class EnnemyCharacter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        pawn = GetComponent<Pawn>();
+        base.Start();
         StartCoroutine(EnemyBehavior());
     }
 
@@ -26,8 +24,23 @@ public class EnnemyCharacter : MonoBehaviour
     {
         while (true)
         {
-            pawn.DoAction(Random.Range(0, 1) == 1 ? KeyCode.Space : keyCodes[Random.Range(0, keyCodes.Length)]);
+            TryAction(Random.Range(0, 1) == 1 ? KeyCode.Space : keyCodes[Random.Range(0, keyCodes.Length)]);
             yield return new WaitForSeconds(0.5f);
         }
     }
+    
+    new bool TryAction(KeyCode action)
+    {
+        if (stamina < maxStamina) return false;
+        
+        stamina = 0;
+        base.TryAction(action);
+        return true;
+    }
+    
+    public override void DeathFunction()
+    {
+        Destroy(gameObject);
+    }
+    
 }

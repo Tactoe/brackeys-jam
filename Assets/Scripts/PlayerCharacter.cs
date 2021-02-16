@@ -2,44 +2,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Profiling;
-// ReSharper disable All
 
-class Character : MonoBehaviour
-{
-    
-}
-
-class Enemy : Character
-{
-    
-}
-
-public class PlayerCharacter : MonoBehaviour
+public class PlayerCharacter : Character
 {
     private ActionRecorder rec;
-    private Pawn pawn;
-    private readonly KeyCode[] keyCodes = new []
-    {
-        KeyCode.LeftArrow,
-        KeyCode.RightArrow,
-        KeyCode.UpArrow,
-        KeyCode.DownArrow, 
-        KeyCode.Space
-    };
 
-    [SerializeField] private GameObject bulletPrefab;
-    // Start is called before the first frame update
-    void Start()
+    new void Start()
     {
-        pawn = GetComponent<Pawn>();
+        base.Start();
         rec = FindObjectOfType<ActionRecorder>();
     }
 
     // Update is called once per frame
-    void Update()
+    new void Update()
     {
+        base.Update();
         ActionKeyPressed();
+    }
+
+    new bool TryAction(KeyCode action)
+    {
+        if (stamina < maxStamina) return false;
+        
+        stamina = 0;
+        base.TryAction(action);
+        return true;
     }
 
     void ActionKeyPressed()
@@ -47,19 +34,13 @@ public class PlayerCharacter : MonoBehaviour
         foreach (KeyCode keyCode in keyCodes)
         {
             if (Input.GetKeyDown(keyCode)) {
-                pawn.DoAction(keyCode);
-                rec.AddAction(keyCode);
+                if (TryAction(keyCode))
+                    rec.AddAction(keyCode);
             }
         }
     }
 
-    private void OnDestroy()
-    {
-        DeathFunction();
-        Invoke("DeathFunction", 2);
-    }
-
-    private void DeathFunction()
+    public override void DeathFunction()
     {
        GameManager.Instance.ReloadScene();
     }
