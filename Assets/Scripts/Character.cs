@@ -12,12 +12,14 @@ public class Character : MonoBehaviour
     
     [SerializeField] protected float stamina;
     [SerializeField] protected float maxStamina = 100;
-    [SerializeField] private float health, maxHealth = 100;
+    [SerializeField] protected float health;
+    [SerializeField] protected float maxHealth = 100;
     [SerializeField] private float attack;
-    [SerializeField] private GameObject bulletPrefab, UIPanel;
+    [SerializeField] protected GameObject bulletPrefab, UIPanel;
     [SerializeField] protected GameObject deathEffect;
 
-    private Image staminaBar, healthBar;
+    protected Image staminaBar;
+    protected Image healthBar;
 
     protected readonly KeyCode[] keyCodes = new []
     {
@@ -59,7 +61,7 @@ public class Character : MonoBehaviour
         return true;
     }
     
-    public void GetHit(float damage)
+    public virtual void GetHit(float damage)
     {
         health -= damage;
         health = Mathf.Max(0, health);

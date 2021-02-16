@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnnemyCharacter : Character
 {
     // Start is called before the first frame update
-    void Start()
+    new void Start()
     {
         base.Start();
         StartCoroutine(EnemyBehavior());
