@@ -87,6 +87,7 @@ public class Character : MonoBehaviour
 
     public void Shoot()
     {
+        print("Shot a ball");
         var tmp = Instantiate(bulletPrefab);
         Bullet b = tmp.GetComponent<Bullet>();
         b.target = targetsPlayer ? "Player" : "Enemy";

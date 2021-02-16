@@ -76,6 +76,11 @@ public class GameManager : MonoBehaviour
                 Time.timeScale = pauseMenu.activeInHierarchy ? 0 : 1;
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            NextScene();
+        }
     }
 
 }

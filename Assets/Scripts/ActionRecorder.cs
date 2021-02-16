@@ -1,7 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using UnityEditor;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using UnityEditor.Build.Content;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
