@@ -23,4 +23,5 @@ public class PastSelf : Character
     protected new void Update()
     {
     }
+    
 }

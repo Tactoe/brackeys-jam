@@ -24,7 +24,7 @@ public class PlayerCharacter : Character
     {
         if (stamina < maxStamina) return false;
         
-        stamina = 0;
+        stamina -= action == KeyCode.Space ? 100 : 50;
         base.TryAction(action);
         return true;
     }
@@ -42,6 +42,7 @@ public class PlayerCharacter : Character
 
     public override void DeathFunction()
     {
-       GameManager.Instance.ReloadScene();
+        GameManager.Instance.ReloadScene();
+        base.DeathFunction();
     }
 }

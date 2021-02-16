@@ -42,7 +42,6 @@ public class ActionRecorder : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        print("Restarted, i should be 0");
         StopCoroutine(Replay());
         previousTimeline = recordingTimeline;
         recordingTimeline = new List<TimeNode>();
@@ -60,19 +59,17 @@ public class ActionRecorder : MonoBehaviour
     {
         int i = 0;
         GameObject dopel = Instantiate(dopelGO);
-        Character dopelPawn = dopel.GetComponent<PastSelf>();
-        while (i < previousTimeline.Count && previousTimeline != null && dopelPawn != null)
+        PastSelf pastSelf = dopel.GetComponent<PastSelf>();
+        while (i < previousTimeline.Count && previousTimeline != null && pastSelf != null)
         {
-            print("looping is " + i);
             yield return new WaitForSeconds(previousTimeline[i].nextActionTimer);
-            if (dopelPawn != null)
+            if (pastSelf != null)
             {
-                print("stuff");
-                dopelPawn.TryAction(previousTimeline[i].action);
+                pastSelf.TryAction(previousTimeline[i].action);
             }
             i++;
         }
-        Destroy(dopel);
+        pastSelf.DeathFunction();
     }
 }
 

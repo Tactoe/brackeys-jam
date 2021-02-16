@@ -4,14 +4,6 @@ using UnityEngine;
 
 public class EnnemyCharacter : Character
 {
-    private readonly KeyCode[] keyCodes = new []
-    {
-        KeyCode.LeftArrow,
-        KeyCode.RightArrow,
-        KeyCode.UpArrow,
-        KeyCode.DownArrow, 
-        KeyCode.Space
-    };
     // Start is called before the first frame update
     void Start()
     {
@@ -24,7 +16,7 @@ public class EnnemyCharacter : Character
     {
         while (true)
         {
-            TryAction(Random.Range(0, 1) == 1 ? KeyCode.Space : keyCodes[Random.Range(0, keyCodes.Length)]);
+            TryAction(Random.Range(0, 2) == 1 ? KeyCode.Space : keyCodes[Random.Range(0, keyCodes.Length)]);
             yield return new WaitForSeconds(0.5f);
         }
     }
@@ -37,10 +29,5 @@ public class EnnemyCharacter : Character
         base.TryAction(action);
         return true;
     }
-    
-    public override void DeathFunction()
-    {
-        Destroy(gameObject);
-    }
-    
+
 }

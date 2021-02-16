@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Character : MonoBehaviour
 {
-    [SerializeField] private float refillAmount;
+    [SerializeField] private float refillAmount, attackDelay = 0;
     [SerializeField] private bool targetsPlayer;
     protected Pawn pawn;
     protected Animator anim;
@@ -15,6 +15,7 @@ public class Character : MonoBehaviour
     [SerializeField] private float health, maxHealth = 100;
     [SerializeField] private float attack;
     [SerializeField] private GameObject bulletPrefab, UIPanel;
+    [SerializeField] protected GameObject deathEffect;
 
     private Image staminaBar, healthBar;
     private Camera _camera;
@@ -44,8 +45,12 @@ public class Character : MonoBehaviour
         if (action == KeyCode.Space)
         {
             if (anim != null)
+            {
                 anim.SetTrigger("attack");
-            Shoot();
+                //Invoke(nameof(Shoot), attackDelay);
+            }
+            else
+                Shoot();
         }
         else
             pawn.MovePawn(action);
@@ -67,9 +72,17 @@ public class Character : MonoBehaviour
         }
     }
 
-    public virtual void DeathFunction(){}
+    public virtual void DeathFunction()
+    {
+        if (deathEffect != null)
+        {
+            var tmp = Instantiate(deathEffect);
+            tmp.transform.position = transform.position;
+        }
+        Destroy(gameObject);
+    }
 
-    protected void Shoot()
+    public void Shoot()
     {
         var tmp = Instantiate(bulletPrefab);
         Bullet b = tmp.GetComponent<Bullet>();
