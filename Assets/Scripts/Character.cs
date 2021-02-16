@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Character : MonoBehaviour
 {
-    [SerializeField] private float refillAmount, attackDelay = 0;
+    [SerializeField] private float refillAmount;
     [SerializeField] private bool targetsPlayer;
     protected Pawn pawn;
     protected Animator anim;
@@ -18,7 +18,6 @@ public class Character : MonoBehaviour
     [SerializeField] protected GameObject deathEffect;
 
     private Image staminaBar, healthBar;
-    private Camera _camera;
 
     protected readonly KeyCode[] keyCodes = new []
     {
@@ -28,6 +27,8 @@ public class Character : MonoBehaviour
         KeyCode.DownArrow, 
         KeyCode.Space
     };
+
+    private static readonly int Attack = Animator.StringToHash("attack");
 
     protected void Start()
     {
@@ -46,7 +47,7 @@ public class Character : MonoBehaviour
         {
             if (anim != null)
             {
-                anim.SetTrigger("attack");
+                anim.SetTrigger(Attack);
                 //Invoke(nameof(Shoot), attackDelay);
             }
             else

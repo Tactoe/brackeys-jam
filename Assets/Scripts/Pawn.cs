@@ -47,6 +47,6 @@ public class Pawn : MonoBehaviour
         var transform1 = transform;
         pos.x = Mathf.Clamp(pos.x, 0, currentGrid.x - 1);
         pos.y = Mathf.Clamp(pos.y, 0, currentGrid.y - 1);
-        transform1.DOLocalJump(new Vector3(pos.x, 1, pos.y), 0.2f, 1, 0.1f).SetEase(Ease.Flash);
+        transform1?.DOLocalJump(new Vector3(pos.x, 1, pos.y), 0.2f, 1, 0.1f).SetEase(Ease.Flash);
     }
 }

@@ -8,11 +8,11 @@ using UnityEngine.SceneManagement;
 public class ActionRecorder : MonoBehaviour
 {
     private List<TimeNode> recordingTimeline, previousTimeline;
-    [SerializeField] private GameObject dopelGO;
     
     private float currentTime;
     private float lastTimeSaved;
-    
+
+    private PastSelf pastSelf;
     
     public static ActionRecorder Instance;
 
@@ -42,38 +42,28 @@ public class ActionRecorder : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        StopCoroutine(Replay());
+        if (pastSelf != null)
+            Destroy(pastSelf);
         previousTimeline = recordingTimeline;
+        lastTimeSaved = Time.time;
         recordingTimeline = new List<TimeNode>();
         if (previousTimeline != null && previousTimeline.Count > 0)
-            StartCoroutine(Replay());
+            FindObjectOfType<ActionReplayer>().LaunchReplay(previousTimeline);
     }
     
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
     public void AddAction(KeyCode action)
     {
         recordingTimeline.Add(new TimeNode(action, Time.time - lastTimeSaved));
         lastTimeSaved = Time.time;
     }
-
-    IEnumerator Replay()
-    {
-        int i = 0;
-        GameObject dopel = Instantiate(dopelGO);
-        PastSelf pastSelf = dopel.GetComponent<PastSelf>();
-        while (i < previousTimeline.Count && previousTimeline != null && pastSelf != null)
-        {
-            yield return new WaitForSeconds(previousTimeline[i].nextActionTimer);
-            if (pastSelf != null)
-            {
-                pastSelf.TryAction(previousTimeline[i].action);
-            }
-            i++;
-        }
-        pastSelf.DeathFunction();
-    }
 }
 
-class TimeNode
+public class TimeNode
 {
     internal KeyCode action;
     internal float nextActionTimer;
