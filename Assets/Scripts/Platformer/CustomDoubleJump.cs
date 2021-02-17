@@ -36,7 +36,6 @@ public class CustomDoubleJump : GroundedControllerAbilityModule
         float jumpVelocity = m_JumpVelocity;
         if (m_UseNormalJumpVelocity)
         {
-            print("updating, time is: " + Time.timeSinceLevelLoad);
             FindObjectOfType<PlatformerRecorder>().RecordDoubleJump();
             jumpVelocity = m_CharacterController.GetJumpVelocity();
         }

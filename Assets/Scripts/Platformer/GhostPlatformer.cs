@@ -11,16 +11,24 @@ public class GhostPlatformer : MonoBehaviour
     private int i = 0;
     public Vector3[] previousTimeline;
     public float animationDuration;
+    public bool canDoReplay;
     [SerializeField] private GameObject bouncePrefab;
     private LineRenderer lr;
+    private MeshRenderer mr;
     
     private void Start()
     {
-        animationDuration = GameManager.Instance.GhostRecordSpeed;
-        lr = GetComponent<LineRenderer>();
-        lr.positionCount = previousTimeline.Length;
-        lr.SetPositions(previousTimeline);
-        DoPath();
+        //lr = GetComponent<LineRenderer>();
+        //lr.positionCount = previousTimeline.Length;
+        //lr.SetPositions(previousTimeline);
+        
+        mr = GetComponent<MeshRenderer>();
+        if (canDoReplay)
+        {
+            mr.enabled = true;
+            animationDuration = GameManager.Instance.GhostRecordSpeed;
+            DoPath();
+        }
     }
 
     void DoPath()
@@ -28,12 +36,13 @@ public class GhostPlatformer : MonoBehaviour
         i++;
         if (i < previousTimeline.Length)
             transform.DOMove(previousTimeline[i], animationDuration).OnComplete(DoPath);
+        else
+            DeathFunction();
     }
 
     void DeathFunction()
     {
         Destroy(gameObject);
     }
-
 
 }

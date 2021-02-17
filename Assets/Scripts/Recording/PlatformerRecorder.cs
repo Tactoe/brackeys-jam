@@ -5,17 +5,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Profiling;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 public class PlatformerRecorder : MonoBehaviour
 {
-    [SerializeField] private int maxTimelines = 5;
+    [SerializeField] private int maxTimelines = 5, maxActions = 1000;
     private List<List<Vector3>> allTimelines;
     [SerializeField] private List<float> bounceTimeline;
     [SerializeField] private List<Vector3> bouncePositions;
     private List<Vector3> recordingTimeline;
     private Transform heroTransform;
-
-    public float currentTime;
 
     private bool isRecording, hasStarted, hasRecordedJump;
     
@@ -46,7 +45,6 @@ public class PlatformerRecorder : MonoBehaviour
     void SetupRecordingTimeline()
     {
         heroTransform = FindObjectOfType<AbilityModuleManager>().transform;
-        currentTime = 0;
         bounceTimeline.Add(-1);
         bouncePositions.Add(Vector3.zero);
         recordingTimeline = new List<Vector3>();
@@ -61,24 +59,17 @@ public class PlatformerRecorder : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    private void Update()
-    {
-        currentTime += Time.deltaTime;
-    }
-
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (!hasStarted) return;
-        
+        print(DOTween.KillAll());
         isRecording = false;
-        StopCoroutine(Record());
+        StopAllCoroutines();
         if (recordingTimeline != null && recordingTimeline.Count > 0)
             allTimelines.Add(new List<Vector3>(recordingTimeline));
         SetupRecordingTimeline();
         if (allTimelines.Count > maxTimelines)
-        {
             allTimelines.RemoveAt(0);
-        }
         if (allTimelines != null && allTimelines.Count > 0)
             FindObjectOfType<PlatformerReplayer>().LaunchReplay(allTimelines, bounceTimeline, bouncePositions);
     }
@@ -92,7 +83,6 @@ public class PlatformerRecorder : MonoBehaviour
         hasRecordedJump = true;
     }
     
-    
     void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
@@ -101,18 +91,11 @@ public class PlatformerRecorder : MonoBehaviour
     IEnumerator Record()
     {
         float delay = GameManager.Instance.GhostRecordSpeed;
-        while (isRecording && recordingTimeline.Count < 1000)
+        while (isRecording && recordingTimeline.Count < maxActions)
         {
             yield return new WaitForSeconds(delay);
             recordingTimeline.Add(heroTransform.position);
         }
     }
 
-    /*private void FixedUpdate()
-    { 
-        if(isRecording && recordingTimeline.Count < 1000)
-        {
-            recordingTimeline.Add(heroTransform.position);
-        }
-    }*/
 }

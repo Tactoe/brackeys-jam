@@ -16,13 +16,13 @@ public class PlatformerReplayer : MonoBehaviour
             StartCoroutine(SpawnBounce(bounceTimeline[i], bouncePositions[i]));
             GhostPlatformer g = tmp.GetComponent<GhostPlatformer>();
             g.previousTimeline = _previousTimelines[i].ToArray();
+            g.canDoReplay = true;//(i + 1 == _previousTimelines.Count);
         }
     }
     
     IEnumerator SpawnBounce(float bounceTimer, Vector3 bouncePos)
     {
         yield return new WaitForSeconds(bounceTimer);
-        print("spawned bounce at:" + Time.timeSinceLevelLoad);
         var tmp = Instantiate(bouncePrefab);
         tmp.transform.position = bouncePos;
     }
