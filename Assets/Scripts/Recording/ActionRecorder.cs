@@ -9,9 +9,8 @@ public class ActionRecorder : MonoBehaviour
     private List<TimeNode> recordingTimeline, previousTimeline;
     
     private float lastTimeSaved;
+    private bool hasStarted;
 
-    private PastSelf pastSelf;
-    
     public static ActionRecorder Instance;
 
     void Awake()
@@ -31,6 +30,7 @@ public class ActionRecorder : MonoBehaviour
     {
         recordingTimeline = new List<TimeNode>();
         lastTimeSaved = Time.time;
+        hasStarted = true;
     }
     
     void OnEnable()
@@ -40,8 +40,9 @@ public class ActionRecorder : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (pastSelf != null)
-            Destroy(pastSelf);
+        if (!hasStarted) return;
+        
+        
         previousTimeline = recordingTimeline;
         lastTimeSaved = Time.time;
         recordingTimeline = new List<TimeNode>();

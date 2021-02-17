@@ -5,8 +5,12 @@ using UnityEngine;
 
 public class ResetConstraint : MonoBehaviour
 {
+    private bool enteredFromBelow;
     private void OnTriggerEnter(Collider other)
     {
-        other.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+        if (!enteredFromBelow)
+            enteredFromBelow = true;
+        else
+            other.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
     }
 }

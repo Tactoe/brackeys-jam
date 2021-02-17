@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     public GameObject pauseMenu;
+    public float GhostRecordSpeed = 0.1f;
 
     void Awake()
     {
