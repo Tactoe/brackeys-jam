@@ -8,12 +8,14 @@ public class ActionReplayer : MonoBehaviour
 {
     private List<TimeNode> previousTimeline;
     [SerializeField] private GameObject dopelGO;
+    public bool isReplaying;
     
     private PastSelf pastSelf;
     private int i = 0;
 
     public void LaunchReplay(List<TimeNode> _previousTimeline)
     {
+        isReplaying = true;
         previousTimeline = _previousTimeline;
         StartCoroutine(Replay());
     }

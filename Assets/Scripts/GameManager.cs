@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
     {
         if (Application.platform == RuntimePlatform.WebGLPlayer)
         {
-            SceneManager.LoadScene(4);
+            SceneManager.LoadScene(SceneManager.GetSceneByName("MobileExit").buildIndex);
         }
         else
         {
@@ -59,6 +59,12 @@ public class GameManager : MonoBehaviour
 
     public void NextScene()
     {
+        if (BattleAudio.Instance)
+           Destroy(BattleAudio.Instance.gameObject); 
+        if (ActionRecorder.Instance)
+           Destroy(ActionRecorder.Instance.gameObject); 
+        if (PlatformerRecorder.Instance)
+           Destroy(PlatformerRecorder.Instance.gameObject); 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 

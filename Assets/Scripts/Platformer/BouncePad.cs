@@ -8,7 +8,6 @@ public class BouncePad : MonoBehaviour
     public float bounceStrength;
     private void OnTriggerEnter(Collider other)
     {
-        print("junop");
         Rigidbody rb = other.GetComponent<Rigidbody>();
         rb.constraints = (RigidbodyConstraints) 122;
         //rb.velocity = Vector3.zero;

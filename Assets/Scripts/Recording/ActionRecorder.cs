@@ -46,7 +46,10 @@ public class ActionRecorder : MonoBehaviour
         lastTimeSaved = Time.time;
         recordingTimeline = new List<TimeNode>();
         if (previousTimeline != null && previousTimeline.Count > 0)
+        {
+            BattleAudio.Instance.EnableSecondaryTrack(1);
             FindObjectOfType<ActionReplayer>().LaunchReplay(previousTimeline);
+        }
     }
     
     void OnDisable()
@@ -56,7 +59,8 @@ public class ActionRecorder : MonoBehaviour
 
     public void AddAction(KeyCode action)
     {
-        recordingTimeline.Add(new TimeNode(action, Time.timeSinceLevelLoad));
+        recordingTimeline.Add(new TimeNode(action, Time.time - lastTimeSaved));
+        lastTimeSaved = Time.time;
     }
 }
 
