@@ -37,6 +37,7 @@ public class CustomDoubleJump : GroundedControllerAbilityModule
         if (m_UseNormalJumpVelocity)
         {
             FindObjectOfType<PlatformerRecorder>().RecordDoubleJump();
+            m_AmountOfDoubleJumpsAllowed = 0;
             jumpVelocity = m_CharacterController.GetJumpVelocity();
         }
         Vector2 newVelocity = m_ControlledCollider.GetVelocity();

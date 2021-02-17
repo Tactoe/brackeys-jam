@@ -61,10 +61,10 @@ public class PlatformerRecorder : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (!hasStarted) return;
-        print(DOTween.KillAll());
-        isRecording = false;
         StopAllCoroutines();
+        print(DOTween.KillAll());
+        if (!hasStarted || SceneManager.GetActiveScene().buildIndex != SceneManager.GetSceneByName("Platform").buildIndex) return;
+        isRecording = false;
         if (recordingTimeline != null && recordingTimeline.Count > 0)
             allTimelines.Add(new List<Vector3>(recordingTimeline));
         SetupRecordingTimeline();

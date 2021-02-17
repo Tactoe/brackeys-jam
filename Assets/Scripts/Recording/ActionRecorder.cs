@@ -9,7 +9,7 @@ public class ActionRecorder : MonoBehaviour
     private List<TimeNode> recordingTimeline, previousTimeline;
     
     private float lastTimeSaved;
-    private bool hasStarted;
+    public bool hasStarted;
 
     public static ActionRecorder Instance;
 
@@ -42,7 +42,6 @@ public class ActionRecorder : MonoBehaviour
     {
         if (!hasStarted) return;
         
-        
         previousTimeline = recordingTimeline;
         lastTimeSaved = Time.time;
         recordingTimeline = new List<TimeNode>();
@@ -57,8 +56,7 @@ public class ActionRecorder : MonoBehaviour
 
     public void AddAction(KeyCode action)
     {
-        recordingTimeline.Add(new TimeNode(action, Time.time - lastTimeSaved));
-        lastTimeSaved = Time.time;
+        recordingTimeline.Add(new TimeNode(action, Time.timeSinceLevelLoad));
     }
 }
 
