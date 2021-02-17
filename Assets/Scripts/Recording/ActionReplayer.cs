@@ -9,9 +9,6 @@ public class ActionReplayer : MonoBehaviour
     private List<TimeNode> previousTimeline;
     [SerializeField] private GameObject dopelGO;
     
-    private float currentTime;
-    private float lastTimeSaved;
-
     private PastSelf pastSelf;
     private int i = 0;
 

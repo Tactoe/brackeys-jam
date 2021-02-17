@@ -8,7 +8,6 @@ public class ActionRecorder : MonoBehaviour
 {
     private List<TimeNode> recordingTimeline, previousTimeline;
     
-    private float currentTime;
     private float lastTimeSaved;
 
     private PastSelf pastSelf;
@@ -62,14 +61,3 @@ public class ActionRecorder : MonoBehaviour
     }
 }
 
-public class TimeNode
-{
-    internal KeyCode action;
-    internal float nextActionTimer;
-
-    public TimeNode(KeyCode _action, float _next)
-    {
-        action = _action;
-        nextActionTimer = _next;
-    }
-}
