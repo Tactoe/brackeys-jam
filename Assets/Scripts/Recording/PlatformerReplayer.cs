@@ -23,8 +23,7 @@ public class PlatformerReplayer : MonoBehaviour
     IEnumerator SpawnBounce(float bounceTimer, Vector3 bouncePos)
     {
         yield return new WaitForSeconds(bounceTimer);
-        var tmp = Instantiate(bouncePrefab);
-        tmp.transform.position = bouncePos;
+        Instantiate(bouncePrefab, bouncePos, Quaternion.identity);
     }
 
 }
