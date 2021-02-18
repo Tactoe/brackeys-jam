@@ -20,15 +20,9 @@ public class DialogueReader : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //cg.alpha = 0;
+        cg.alpha = 0;
     }
 
-    public void ActivateDialogue()
-    {
-        inDialogue = true;
-    }
-
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.KeypadEnter) || (inDialogue && Input.GetMouseButtonDown(0)))
@@ -39,16 +33,17 @@ public class DialogueReader : MonoBehaviour
             }
             else
             {
-                //CloseDialogue();
+                CloseDialogue();
             }
         }
     }
 
     public void StartDialogue(Dialogue newDial)
     {
+        inDialogue = true;
         currentDialogue = newDial;
         ReadNewNode(currentDialogue.dialogue[dialogueIndex]);
-        cg.alpha = 1;
+        //cg.alpha = 1;
     }
 
     void ReadNewNode(DialogueNode node)
@@ -65,10 +60,12 @@ public class DialogueReader : MonoBehaviour
             Color color;
             nameText.transform.parent.gameObject.SetActive(true);
             nameText.text = node.speakerName;
-            if (node.speakerName == "Maro")
-                nameText.transform.parent.GetComponent<Image>().color = new Color(22, 0, 27);
-            if (node.speakerName == "Cubotron")
-                nameText.transform.parent.GetComponent<Image>().color = new Color(252, 228, 182);
+            if (node.speakerName == "Id")
+                nameText.transform.parent.GetComponent<Image>().color = new Color(92, 75, 108);
+            if (node.speakerName == "Id (Past)")
+                nameText.transform.parent.GetComponent<Image>().color = new Color(92, 75, 108);
+            if (node.speakerName == "Gauntlet")
+                nameText.transform.parent.GetComponent<Image>().color = new Color(14, 20, 10);
         }
         else
             nameText.transform.parent.gameObject.SetActive(false);
@@ -80,6 +77,7 @@ public class DialogueReader : MonoBehaviour
 
     void HandleImg(Sprite img, Image target)
     {
+        if (target == null) return;
         if (img != null)
         {
             target.sprite = img;
@@ -89,12 +87,9 @@ public class DialogueReader : MonoBehaviour
             target.gameObject.SetActive(false);
     }
 
-    /*void CloseDialogue()
+    void CloseDialogue()
     {
-        TransitionBlock[] tb = FindObjectsOfType<TransitionBlock>(true);
-        foreach (TransitionBlock b in tb)
-        {
-            b.gameObject.SetActive(true);
-        }
-    }*/
+        inDialogue = false;
+        FindObjectOfType<FireplaceDialogues>().CloseDialogue();
+    }
 }

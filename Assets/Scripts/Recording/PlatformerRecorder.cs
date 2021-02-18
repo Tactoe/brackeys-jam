@@ -72,7 +72,10 @@ public class PlatformerRecorder : MonoBehaviour
             allTimelines.Add(new List<Vector3>(recordingTimeline));
         SetupRecordingTimeline();
         if (allTimelines.Count > maxTimelines)
+        {
+            bounceTimeline.RemoveAt(0); 
             allTimelines.RemoveAt(0);
+        } 
         if (allTimelines != null && allTimelines.Count > 0)
             FindObjectOfType<PlatformerReplayer>().LaunchReplay(allTimelines, bounceTimeline, bouncePositions);
     }

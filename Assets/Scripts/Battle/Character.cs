@@ -1,4 +1,5 @@
 ﻿using System;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +11,7 @@ public class Character : MonoBehaviour
     protected Pawn pawn;
     protected Animator anim;
     
+    [SerializeField] protected string charName;
     [SerializeField] protected float stamina;
     [SerializeField] protected float maxStamina = 100;
     [SerializeField] protected float health;
@@ -20,6 +22,7 @@ public class Character : MonoBehaviour
 
     protected Image staminaBar;
     protected Image healthBar;
+    protected TextMeshProUGUI nameText;
 
     protected readonly KeyCode[] keyCodes = new []
     {
@@ -41,6 +44,8 @@ public class Character : MonoBehaviour
         GameObject uiPan = Instantiate(UIPanel, FindObjectOfType<Canvas>().transform);
         staminaBar = uiPan.transform.Find("StaminaBarGO").Find("StaminaBar").GetComponent<Image>();
         healthBar = uiPan.transform.Find("HealthBarGO").Find("HealthBar").GetComponent<Image>();
+        nameText = uiPan.transform.Find("NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = charName;
     }
 
     public bool TryAction(KeyCode action)
@@ -87,7 +92,6 @@ public class Character : MonoBehaviour
 
     public void Shoot()
     {
-        print("Shot a ball");
         var tmp = Instantiate(bulletPrefab);
         Bullet b = tmp.GetComponent<Bullet>();
         b.target = targetsPlayer ? "Player" : "Enemy";

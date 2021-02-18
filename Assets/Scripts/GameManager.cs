@@ -9,7 +9,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject pauseMenu;
     public float GhostRecordSpeed = 0.1f;
-
+    public int fireplaceDialogueIndex = -1;
+    
     void Awake()
     {
         if (Instance == null)
@@ -37,6 +38,13 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1;
         pauseMenu.SetActive(false);
+        if (scene.name == "Fireplace")
+            fireplaceDialogueIndex++;
+    }
+    
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     public void ExitGame()
@@ -59,18 +67,24 @@ public class GameManager : MonoBehaviour
 
     public void NextScene()
     {
+        RemoveAllInstances();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    public void MainMenu()
+    {
+        RemoveAllInstances();
+        SceneManager.LoadScene(0);
+    }
+
+    void RemoveAllInstances()
+    {
         if (BattleAudio.Instance)
            Destroy(BattleAudio.Instance.gameObject); 
         if (ActionRecorder.Instance)
            Destroy(ActionRecorder.Instance.gameObject); 
         if (PlatformerRecorder.Instance)
            Destroy(PlatformerRecorder.Instance.gameObject); 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-    }
-
-    public void MainMenu()
-    {
-        SceneManager.LoadScene(0);
     }
 
     void Update()
@@ -84,10 +98,10 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.N))
+        /*if (Input.GetKeyDown(KeyCode.N))
         {
             NextScene();
-        }
+        }*/
     }
 
 }
