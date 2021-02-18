@@ -6,7 +6,7 @@ using System.Collections;
 public class BasicCameraTracker : MonoBehaviour {
     public GameObject m_Target = null;
     [SerializeField] float m_InterpolationFactor = 0.0f;
-    [SerializeField] bool m_UseFixedUpdate = false;
+    public bool m_UseFixedUpdate = false;
     [SerializeField] float m_ZDistance = 10.0f, yOffset = 5;
 
 	void FixedUpdate () 

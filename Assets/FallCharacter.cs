@@ -19,7 +19,7 @@ public class FallCharacter : MonoBehaviour
         var tmp = transform.position;
         tmp.y = fallHeight;
         transform.position = tmp; 
-        Camera.main.transform.DORotate(Vector3.right * 8.5f, 10);
+        Camera.main.transform.DORotate(Vector3.right * 8.5f, 15);
     }
 
     // Update is called once per frame
@@ -31,6 +31,7 @@ public class FallCharacter : MonoBehaviour
             {
                 hero.SetActive(true);
                 Camera.main.GetComponent<BasicCameraTracker>().m_Target = hero;
+                Camera.main.GetComponent<BasicCameraTracker>().m_UseFixedUpdate = false;
                 StopCoroutine(GetupBubble());
                 Destroy(gameObject);
             }
