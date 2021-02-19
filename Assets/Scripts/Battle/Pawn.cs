@@ -38,6 +38,10 @@ public class Pawn : MonoBehaviour
             pos.x += action == KeyCode.RightArrow ? 1 : -1;
         if (action == KeyCode.UpArrow || action == KeyCode.DownArrow)
             pos.y += action == KeyCode.UpArrow ? 1 : -1;
+        if (action == KeyCode.A || action == KeyCode.D)
+            pos.x += action == KeyCode.D ? 1 : -1;
+        if (action == KeyCode.W || action == KeyCode.S)
+            pos.y += action == KeyCode.W ? 1 : -1;
         UpdatePos();
     }
 

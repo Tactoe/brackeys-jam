@@ -35,6 +35,10 @@ public class Character : MonoBehaviour
         KeyCode.RightArrow,
         KeyCode.UpArrow,
         KeyCode.DownArrow, 
+        KeyCode.W, 
+        KeyCode.A, 
+        KeyCode.S, 
+        KeyCode.D, 
         KeyCode.Space
     };
 

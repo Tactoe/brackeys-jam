@@ -16,7 +16,7 @@ public class DialogueReader : MonoBehaviour
     [SerializeField]
     CanvasGroup cg;
     int dialogueIndex;
-    public bool inDialogue;
+    public bool inDialogue, isTyping;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,7 +27,11 @@ public class DialogueReader : MonoBehaviour
     {
         if (inDialogue && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetMouseButtonDown(0)))
         {
-            if (dialogueIndex < currentDialogue.dialogue.Count)
+            if (isTyping)
+            {
+                dialogueText.maxVisibleCharacters = dialogueText.text.Length;
+            }
+            else if (dialogueIndex < currentDialogue.dialogue.Count)
             {
                 ReadNewNode(currentDialogue.dialogue[dialogueIndex]);
             }
@@ -46,12 +50,31 @@ public class DialogueReader : MonoBehaviour
         //cg.alpha = 1;
     }
 
+    IEnumerator ReadText()
+    {
+        isTyping = true;
+        while (dialogueText.maxVisibleCharacters < dialogueText.text.Length)
+        {
+            if (dialogueText.text[dialogueText.maxVisibleCharacters] == '.')
+                yield return new WaitForSeconds(0.12f);
+            else if (dialogueText.text[dialogueText.maxVisibleCharacters] == ',')
+                yield return new WaitForSeconds(0.08f);
+            else
+                yield return new WaitForSeconds(0.04f);
+            dialogueText.maxVisibleCharacters++;
+        }
+
+        isTyping = false;
+    }
+    
     void ReadNewNode(DialogueNode node)
     {
         if (node.text != "")
         {
             dialogueText.transform.parent.gameObject.SetActive(true);
             dialogueText.text = node.text;
+            dialogueText.maxVisibleCharacters = 0;
+            StartCoroutine(ReadText());
         }
         else
             dialogueText.transform.parent.gameObject.SetActive(false);

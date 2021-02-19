@@ -8,6 +8,7 @@ using UnityEngine;
 public class PlayerCharacter : Character
 {
     private ActionRecorder rec;
+    [SerializeField] private Sprite hurtSprite, criticalSprite;
 
     new void Start()
     {
@@ -19,6 +20,16 @@ public class PlayerCharacter : Character
     new void Update()
     {
         base.Update();
+        if (hurtAnimationPlaying)
+        {
+            uiSprite.sprite = hurtSprite;
+            uiSprite.rectTransform.sizeDelta = new Vector2(637, 849);
+        }
+        else if (uiSprite.sprite != charSprite)
+        {
+            uiSprite.sprite = health > 20 ? charSprite : criticalSprite;
+            uiSprite.rectTransform.sizeDelta = health > 20 ? new Vector2(499, 937) : new Vector2(394, 820);
+        }
         ActionKeyPressed();
     }
 
