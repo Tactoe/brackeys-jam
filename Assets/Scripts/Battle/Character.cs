@@ -37,7 +37,7 @@ public class Character : MonoBehaviour
 
     protected void Start()
     {
-        stamina = maxStamina;
+        stamina = 0;
         health = maxHealth;
         anim = GetComponentInChildren<Animator>();
         pawn = GetComponent<Pawn>();
@@ -90,16 +90,35 @@ public class Character : MonoBehaviour
         Destroy(gameObject);
     }
 
+    void SetupBullet()
+    {
+        
+    }
+
     public void Shoot()
     {
         var tmp = Instantiate(bulletPrefab);
         Bullet b = tmp.GetComponent<Bullet>();
-        b.target = targetsPlayer ? "Player" : "Enemy";
+        b.targetTag = targetsPlayer ? "Player" : "Enemy";
+        if (b.isLaunched)
+            b.targetPos = FindObjectOfType<PlayerCharacter>().transform.position;
         b.damage = attack;
         tmp.transform.position = transform.position;
         tmp.transform.forward = transform.forward;
     }
-    
+
+    public void Launch(Vector3 targetPos)
+    {
+        var tmp = Instantiate(bulletPrefab);
+        Bullet b = tmp.GetComponent<Bullet>();
+        b.targetTag = targetsPlayer ? "Player" : "Enemy";
+        if (b.isLaunched)
+            b.targetPos = targetPos;
+        b.damage = attack;
+        tmp.transform.position = transform.position;
+        tmp.transform.forward = transform.forward;
+    }
+
     protected void Update()
     {
         if (stamina < 100)

@@ -9,12 +9,12 @@ public class ShieldedEnemy : Character
 {
     public float shield, shieldRechargeSpeed, maxShield = 100f;
 
-    [SerializeField] private bool isMoving;
+    [SerializeField] private bool isMoving, isBoss;
     [SerializeField] private Image shieldIcon;
     // Start is called before the first frame update
     new void Start()
     {
-        stamina = maxStamina;
+        stamina = 0;
         health = maxHealth;
         anim = GetComponentInChildren<Animator>();
         pawn = GetComponent<Pawn>();
@@ -77,6 +77,15 @@ public class ShieldedEnemy : Character
                 }
             }
         }
+        if (isBoss)
+        {
+            while (true)
+            {
+                TryAction(KeyCode.Alpha0);
+                yield return new WaitForSeconds(0.25f);
+            }
+            
+        }
         else
         {
             while (true)
@@ -92,6 +101,15 @@ public class ShieldedEnemy : Character
         if (stamina < maxStamina) return false;
         
         stamina = 0;
+        if (action == KeyCode.Alpha0)
+        {
+            for (int i = 0; i < pawn.currentGrid.transform.childCount; i++)
+            {
+                var obj = FindObjectOfType<PlayerCharacter>().transform.parent.GetChild(i);
+                if (transform.GetComponent<PlayerCharacter>() == null)
+                    Launch(obj.position);
+            }
+        }
         base.TryAction(action);
         return true;
     }

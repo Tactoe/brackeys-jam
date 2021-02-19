@@ -10,14 +10,14 @@ public class Pawn : MonoBehaviour
 {
     [SerializeField] private bool usesStamina;
     public Vector2 pos;
-    [SerializeField] BattleGrid currentGrid;
+    public BattleGrid currentGrid;
     
     private void Awake()
     {
         BattleGrid[] grids = FindObjectsOfType<BattleGrid>();
         foreach (var grid in grids)
         {
-            if (grid.CompareTag(gameObject.tag))
+            if (grid.CompareTag(gameObject.tag + "Plat"))
                 currentGrid = grid;
         }
 

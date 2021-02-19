@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class IntroBattle : MonoBehaviour
 {
-    private Light light;
+    [SerializeField] private Light light;
     private Volume v;
     [SerializeField] private float animationDuration = 0.5f;
     [SerializeField] private Ease ease;
@@ -22,7 +22,6 @@ public class IntroBattle : MonoBehaviour
     {
         doLightIntro = ActionRecorder.Instance.hasStarted;
         whiteOut = GetComponent<Image>();
-        light = FindObjectOfType<Light>();
         v = FindObjectOfType<Volume>();
         if (doLightIntro)
             LightIntro();
