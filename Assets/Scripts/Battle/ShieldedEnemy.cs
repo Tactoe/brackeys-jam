@@ -10,20 +10,10 @@ public class ShieldedEnemy : Character
     public float shield, shieldRechargeSpeed, maxShield = 100f;
 
     [SerializeField] private bool isMoving, isBoss;
-    [SerializeField] private Image shieldIcon;
     // Start is called before the first frame update
     new void Start()
     {
-        stamina = 0;
-        health = maxHealth;
-        anim = GetComponentInChildren<Animator>();
-        pawn = GetComponent<Pawn>();
-        GameObject uiPan = Instantiate(UIPanel, FindObjectOfType<Canvas>().transform);
-        staminaBar = uiPan.transform.Find("StaminaBarGO").Find("StaminaBar").GetComponent<Image>();
-        healthBar = uiPan.transform.Find("HealthBarGO").Find("HealthBar").GetComponent<Image>();
-        shieldIcon = uiPan.transform.Find("ShieldBG").Find("Shield").GetComponent<Image>();
-        nameText = uiPan.transform.Find("NameText").GetComponent<TextMeshProUGUI>();
-        nameText.text = charName;
+        base.Start();
         StartCoroutine(EnemyBehavior());
     }
     

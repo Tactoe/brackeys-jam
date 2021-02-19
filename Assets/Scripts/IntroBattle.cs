@@ -30,7 +30,7 @@ public class IntroBattle : MonoBehaviour
     {
         v.profile.TryGet(out lens);
         DOTween.To(x => lens.intensity.value = x, -1, 0, animationDuration).SetEase(ease);
-        DOTween.To(x => lens.scale.value = x, 0.3f, 1, animationDuration).SetEase(ease);
+        DOTween.To(x => lens.scale.value = x, -1, 1, animationDuration).SetEase(ease);
         light.intensity = 17;
         light.DOIntensity(1, animationDuration).SetEase(ease);
         LightIntro();

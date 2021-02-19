@@ -20,8 +20,9 @@ public class Character : MonoBehaviour
     [SerializeField] protected GameObject bulletPrefab, UIPanel;
     [SerializeField] protected GameObject deathEffect;
 
-    protected Image staminaBar;
-    protected Image healthBar;
+    [SerializeField] protected Image staminaBar;
+    [SerializeField] protected Image healthBar;
+    [SerializeField] protected Image shieldIcon;
     protected TextMeshProUGUI nameText;
 
     protected readonly KeyCode[] keyCodes = new []
@@ -33,6 +34,7 @@ public class Character : MonoBehaviour
         KeyCode.Space
     };
 
+    public GameObject uiPan;
     private static readonly int Attack = Animator.StringToHash("attack");
 
     protected void Start()
@@ -41,10 +43,17 @@ public class Character : MonoBehaviour
         health = maxHealth;
         anim = GetComponentInChildren<Animator>();
         pawn = GetComponent<Pawn>();
-        GameObject uiPan = Instantiate(UIPanel, FindObjectOfType<Canvas>().transform);
+        var ok = FindObjectsOfType<Canvas>();
+        foreach (var canvas in ok)
+        {
+           if (canvas.CompareTag("Player")) 
+                uiPan = Instantiate(UIPanel, canvas.transform);
+        }
         staminaBar = uiPan.transform.Find("StaminaBarGO").Find("StaminaBar").GetComponent<Image>();
         healthBar = uiPan.transform.Find("HealthBarGO").Find("HealthBar").GetComponent<Image>();
         nameText = uiPan.transform.Find("NameText").GetComponent<TextMeshProUGUI>();
+        if (uiPan.transform.Find("ShieldBG") != null)
+            shieldIcon = uiPan.transform.Find("ShieldBG").Find("Shield").GetComponent<Image>();
         nameText.text = charName;
     }
 
