@@ -14,9 +14,8 @@ public class GameManager : MonoBehaviour
     public int fireplaceDialogueIndex = 0, monsterWaveIndex = 0;
     public bool doDialogueOnDeath;
 
-    [SerializeField] private Image fadeImg;
-    private bool mustFadeIn;
-    private CanvasGroup fadeImgCG;
+    [SerializeField] public Image fadeImg;
+    public CanvasGroup fadeImgCG;
     
     void Awake()
     {
@@ -44,12 +43,9 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        DOTween.KillAll();
         Time.timeScale = 1;
         pauseMenu.SetActive(false);
-        if (mustFadeIn)
-        {
-            FadeIn(defaultDuration, Color.black);
-        }
     }
     
     void OnDisable()
@@ -79,7 +75,6 @@ public class GameManager : MonoBehaviour
         fadeImg.color = Color.black;
         fadeImgCG.alpha = 0;
         fadeImgCG.DOFade(1, defaultDuration).OnComplete(() => LoadScene(sceneName));
-        mustFadeIn = true;
     }
     
     public void LoadSceneFade(string sceneName, float fadeDuration, Color color)

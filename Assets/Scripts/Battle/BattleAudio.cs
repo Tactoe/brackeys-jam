@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
+using UnityEngine.Rendering;
 
 public class BattleAudio : MonoBehaviour
 {
@@ -33,6 +35,16 @@ public class BattleAudio : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name != "Battle")
             Destroy(gameObject);
+    }
+
+    public void FadeOut(float duration)
+    {
+        if (main.isPlaying)
+            main.DOFade(0, duration);
+        if (f1.isPlaying)
+            f1.DOFade(0, duration);
+        if (f2.isPlaying)
+            f2.DOFade(0, duration);
     }
 
     public void EnableSecondaryTrack(int amount)

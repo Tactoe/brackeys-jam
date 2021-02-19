@@ -42,7 +42,7 @@ public class Pawn : MonoBehaviour
     }
 
 
-    void UpdatePos()
+    public void UpdatePos()
     {
         var transform1 = transform;
         pos.x = Mathf.Clamp(pos.x, 0, currentGrid.x - 1);

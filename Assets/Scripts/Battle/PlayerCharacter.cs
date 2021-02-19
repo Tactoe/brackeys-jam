@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
+using TMPro.EditorUtilities;
 using UnityEngine;
 
 public class PlayerCharacter : Character
@@ -44,14 +46,18 @@ public class PlayerCharacter : Character
     {
         if (GameManager.Instance.doDialogueOnDeath)
         {
-            GameManager.Instance.LoadScene("Fireplace");
-            GameManager.Instance.doDialogueOnDeath = false;
+            FindObjectOfType<BattleAudio>().FadeOut(3);
+            GameManager.Instance.fadeImg.color = Color.black;
+            GameManager.Instance.fadeImgCG.DOFade(1, 4).OnComplete(() =>
+            {
+                GameManager.Instance.doDialogueOnDeath = false; 
+                GameManager.Instance.LoadScene("Fireplace");
+            });
         }
         else
         {
             BattleAudio.Instance.EnableSecondaryTrack(1);
             GameManager.Instance.ReloadScene();
         }
-        base.DeathFunction();
     }
 }

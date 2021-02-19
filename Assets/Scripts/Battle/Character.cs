@@ -1,4 +1,5 @@
 ﻿using System;
+using DG.Tweening;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -7,8 +8,8 @@ using UnityEngine.UI;
 public class Character : MonoBehaviour
 {
     [SerializeField] private float refillAmount;
-    [SerializeField] private bool targetsPlayer;
-    protected Pawn pawn;
+    [SerializeField] private bool targetsPlayer; 
+    public Pawn pawn;
     protected Animator anim;
     
     [SerializeField] protected string charName;
@@ -19,11 +20,14 @@ public class Character : MonoBehaviour
     [SerializeField] private float attack;
     [SerializeField] protected GameObject bulletPrefab, UIPanel;
     [SerializeField] protected GameObject deathEffect;
+    [SerializeField] protected Sprite charSprite; 
 
     [SerializeField] protected Image staminaBar;
     [SerializeField] protected Image healthBar;
     [SerializeField] protected Image shieldIcon;
-    protected TextMeshProUGUI nameText;
+    [SerializeField] protected Image uiSprite;
+    protected bool dead, hurtAnimationPlaying;
+    protected TextMeshProUGUI nameText, healthText;
 
     protected readonly KeyCode[] keyCodes = new []
     {
@@ -46,19 +50,34 @@ public class Character : MonoBehaviour
         var ok = FindObjectsOfType<Canvas>();
         foreach (var canvas in ok)
         {
-           if (canvas.CompareTag("Player")) 
-                uiPan = Instantiate(UIPanel, canvas.transform);
+            if (canvas.CompareTag("Player"))
+            {
+                if (UIPanel.name == "MonsterPanel")
+                {
+                    uiPan = Instantiate(UIPanel, canvas.transform.Find("MonsterGrid"));
+                }
+                else
+                    uiPan = Instantiate(UIPanel, canvas.transform);
+            }
         }
         staminaBar = uiPan.transform.Find("StaminaBarGO").Find("StaminaBar").GetComponent<Image>();
-        healthBar = uiPan.transform.Find("HealthBarGO").Find("HealthBar").GetComponent<Image>();
+        healthBar = uiPan.transform.Find("HealthBarGO").Find("HealthBar").GetComponent<Image>(); 
+        healthText = uiPan.transform.Find("HealthBarGO").Find("HealthText").GetComponent<TextMeshProUGUI>();
+        healthText.text = "Health: " + health + "/" + maxHealth;
         nameText = uiPan.transform.Find("NameText").GetComponent<TextMeshProUGUI>();
-        if (uiPan.transform.Find("ShieldBG") != null)
+        uiSprite = uiPan.transform.Find("CharSprite").GetComponent<Image>();
+        if (UIPanel.name == "MonsterPanel")
+        {
+            uiSprite.sprite = charSprite;
+            nameText.transform.Find("TextColor").GetComponent<Image>().sprite = charSprite;
             shieldIcon = uiPan.transform.Find("ShieldBG").Find("Shield").GetComponent<Image>();
+        }
         nameText.text = charName;
     }
 
     public bool TryAction(KeyCode action)
     {
+        if (dead) return false;
         if (action == KeyCode.Space)
         {
             if (anim != null)
@@ -77,14 +96,25 @@ public class Character : MonoBehaviour
     
     public virtual void GetHit(float damage)
     {
+        if (dead) return;
+        float hurtDuration = 0.3f;
+        if (!hurtAnimationPlaying)
+        {
+            hurtAnimationPlaying = true;
+            var spr = uiSprite.DOColor(new Color(200, 0, 0), hurtDuration);
+            spr.OnComplete(() => uiSprite.DOColor(Color.white, hurtDuration));
+            uiSprite.transform.DOShakePosition(hurtDuration * 2, Vector2.one * 10).OnComplete(() => hurtAnimationPlaying = false);
+        }
         health -= damage;
         health = Mathf.Max(0, health);
         healthBar.fillAmount = health / maxHealth;
+        healthText.text = "Health: " + health + "/" + maxHealth;
         if (health > 0)
         {
         }
         else
         {
+            dead = true;
             DeathFunction();
         }
     }

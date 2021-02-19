@@ -10,10 +10,12 @@ public class FireplaceDialogues : MonoBehaviour
 {
     [SerializeField] private DialogueReader reader;
     
-    private Image img;
     [SerializeField] private float blackoutDuration = 8, canvasFadeInDuration;
 
     [SerializeField] private Dialogue[] dialogues;
+
+    
+    [SerializeField] private StartAudio src;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -25,9 +27,8 @@ public class FireplaceDialogues : MonoBehaviour
 
     void Start()
     {
-        img = GetComponent<Image>();
-        img.color = Color.black;
-        img.DOFade(0, blackoutDuration).OnComplete(() => StartCoroutine(LaunchDialogue()));
+        src = FindObjectOfType<StartAudio>();
+        GameManager.Instance.fadeImgCG.DOFade(0, blackoutDuration).OnComplete(() => StartCoroutine(LaunchDialogue()));
     }
 
 
@@ -41,6 +42,7 @@ public class FireplaceDialogues : MonoBehaviour
     public void CloseDialogue()
     {
         GameManager.Instance.fireplaceDialogueIndex++;
+        src.MusicFadeOut(blackoutDuration - 0.5f);
         GameManager.Instance.LoadSceneFade("Battle", blackoutDuration, Color.black);
     }
 }

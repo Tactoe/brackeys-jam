@@ -44,7 +44,6 @@ public class ShieldedEnemy : Character
     {
         if (isMoving)
         {
-            float waitingTime = 3.5f;
             KeyCode[] actions = new[]
             {
                 KeyCode.LeftArrow,

@@ -29,8 +29,8 @@ public class IntroBattle : MonoBehaviour
     private void DoIntro()
     {
         v.profile.TryGet(out lens);
-        DOTween.To(x => lens.intensity.value = x, -1, 0, animationDuration).SetEase(ease);
-        DOTween.To(x => lens.scale.value = x, -1, 1, animationDuration).SetEase(ease);
+        DOTween.To(x => lens.intensity.value = x, -0.75f, 0, animationDuration).SetEase(Ease.InCubic);
+        DOTween.To(x => lens.scale.value = x, 0.5f, 1, animationDuration).SetEase(Ease.OutCubic);
         light.intensity = 17;
         light.DOIntensity(1, animationDuration).SetEase(ease);
         LightIntro();
@@ -38,7 +38,10 @@ public class IntroBattle : MonoBehaviour
 
     private void LightIntro()
     {
-        GameManager.Instance.FadeIn(animationDuration, Color.white);
+        GameManager.Instance.fadeImg.color = Color.white;
+        GameManager.Instance.fadeImgCG.alpha = 1;
+        GameManager.Instance.fadeImgCG.DOFade(0, animationDuration);
+        //GameManager.Instance.FadeIn(animationDuration, Color.white);
     }
 
 

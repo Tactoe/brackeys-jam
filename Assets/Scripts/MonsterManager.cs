@@ -27,7 +27,7 @@ public class MonsterManager : MonoBehaviour
         {
             GameObject tmp = wave.monsters[i];
             tmp.GetComponent<Pawn>().pos = wave.position[i];
-            Instantiate(wave.monsters[i], Vector3.zero, Quaternion.identity);
+            Instantiate(wave.monsters[i], Vector3.zero, wave.monsters[i].transform.rotation);
         }
     }
 

@@ -9,6 +9,8 @@ public class PastSelf : Character
     {
         anim = GetComponentInChildren<Animator>();
         pawn = GetComponent<Pawn>();
+        pawn.pos = FindObjectOfType<PlayerCharacter>().pawn.pos;
+        pawn.UpdatePos();
     }
 
     protected new void Update()

@@ -13,7 +13,6 @@ public class StartAudio : MonoBehaviour
     void Start()
     {
         src = GetComponent<AudioSource>();
-        print("take 1");
         print(src);
         if (src.playOnAwake)
         {
@@ -23,12 +22,16 @@ public class StartAudio : MonoBehaviour
 
     public void PlayWithFade()
     {
-        print("take 2");
         print(src);
         src.time = startTime;
         src.volume = 0;
         src.Play();
         src.DOFade(1, fadeTime).SetEase(ease);
+    }
+
+    public void MusicFadeOut(float duration)
+    {
+        src.DOFade(0, duration).SetEase(ease);
     }
 
 }

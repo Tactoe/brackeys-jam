@@ -11,6 +11,14 @@ public class BattleGrid : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (GameManager.Instance.monsterWaveIndex > 1)
+        {
+            x = 5;
+        }
+        if (x >= 5)
+        {
+            transform.position -= Vector3.right * 0.5f;
+        }
         for (int i = 0; i < x; i++)
         {
             for (int j = 0; j < y; j++)

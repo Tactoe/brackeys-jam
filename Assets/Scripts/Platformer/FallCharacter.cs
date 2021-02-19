@@ -16,6 +16,7 @@ public class FallCharacter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameManager.Instance.fadeImgCG.DOFade(0, 8);
         var tmp = transform.position;
         tmp.y = fallHeight;
         transform.position = tmp; 
