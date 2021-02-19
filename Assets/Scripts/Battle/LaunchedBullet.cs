@@ -7,13 +7,6 @@ using UnityEngine;
 
 public class LaunchedBullet : Bullet
 {
-    public float speed = 1;
-    public float damage;
-    public bool isLaunched;
-
-    public string targetTag;
-
-    public Vector3 targetPos;
 
     private Tween t;
     // Start is called before the first frame update

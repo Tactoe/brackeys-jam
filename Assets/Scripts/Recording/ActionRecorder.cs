@@ -9,7 +9,7 @@ public class ActionRecorder : MonoBehaviour
     private List<TimeNode> recordingTimeline, previousTimeline;
     
     private float lastTimeSaved;
-    public bool hasStarted;
+    public bool recordingForFirstTime;
 
     public static ActionRecorder Instance;
 
@@ -30,7 +30,7 @@ public class ActionRecorder : MonoBehaviour
     {
         recordingTimeline = new List<TimeNode>();
         lastTimeSaved = Time.time;
-        hasStarted = true;
+        recordingForFirstTime = true;
     }
     
     void OnEnable()
@@ -41,7 +41,7 @@ public class ActionRecorder : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (SceneManager.GetActiveScene().name != "Battle") Destroy(gameObject);
-        if (!hasStarted) return;
+        if (!recordingForFirstTime) return;
         
         previousTimeline = recordingTimeline;
         lastTimeSaved = Time.time;

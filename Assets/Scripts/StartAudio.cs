@@ -13,6 +13,18 @@ public class StartAudio : MonoBehaviour
     void Start()
     {
         src = GetComponent<AudioSource>();
+        print("take 1");
+        print(src);
+        if (src.playOnAwake)
+        {
+            PlayWithFade();
+        }
+    }
+
+    public void PlayWithFade()
+    {
+        print("take 2");
+        print(src);
         src.time = startTime;
         src.volume = 0;
         src.Play();

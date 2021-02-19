@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using DG.Tweening;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,8 +11,11 @@ public class GameManager : MonoBehaviour
 
     public GameObject pauseMenu;
     public float GhostRecordSpeed = 0.1f;
-    public int fireplaceDialogueIndex = 0;
+    public int fireplaceDialogueIndex = 0, monsterWaveIndex = 0;
     public bool doDialogueOnDeath;
+
+    [SerializeField] private Image fadeImg;
+    private CanvasGroup fadeImgCG;
     
     void Awake()
     {
@@ -27,6 +32,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        fadeImgCG = fadeImg.gameObject.GetComponent<CanvasGroup>();
         pauseMenu.SetActive(false);
     }
     
@@ -62,6 +68,20 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(sceneName);
     }
+    
+    public void LoadSceneFade(string sceneName, float fadeDuration, Color color)
+    {
+        fadeImg.color = color;
+        fadeImgCG.alpha = 0;
+        fadeImgCG.DOFade(1, fadeDuration).OnComplete(() => LoadScene("Battle"));
+    }
+    
+    public void FadeIn(float fadeDuration, Color color)
+    {
+        fadeImg.color = color;
+        fadeImgCG.alpha = 1;
+        fadeImgCG.DOFade(0, fadeDuration);
+    }
 
     public void ReloadScene()
     {
@@ -92,10 +112,11 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && SceneManager.GetActiveScene().buildIndex != 0)
         {
             if (pauseMenu != null)
             {
+                pauseMenu.GetComponent<CanvasGroup>().alpha = 1;
                 pauseMenu?.SetActive(!pauseMenu.activeInHierarchy);
                 Time.timeScale = pauseMenu.activeInHierarchy ? 0 : 1;
             }

@@ -13,7 +13,6 @@ public class LoadNext : MonoBehaviour
     private Volume v;
     [SerializeField] private float animationDuration = 0.5f;
     [SerializeField] private Ease ease;
-    [SerializeField] private Image whiteOut;
     private LensDistortion lens;
 
     private void Start()
@@ -35,7 +34,7 @@ public class LoadNext : MonoBehaviour
         //lens.intensity.value = -1;
         //AnimateVignette();
         light.DOIntensity(17, animationDuration).SetEase(ease);
-        whiteOut.DOFade(1, animationDuration).SetEase(ease).OnComplete(GameManager.Instance.NextScene);
+        GameManager.Instance.LoadSceneFade("Battle", animationDuration, Color.white);
        //GameManager.Instance.NextScene(); 
     }
 

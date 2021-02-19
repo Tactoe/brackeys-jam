@@ -1,5 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
+using DG.Tweening;
+using DG;
 //--------------------------------------------------------------------
 //Follows the player along the 2d plane, using a continuous lerp
 //--------------------------------------------------------------------
@@ -8,8 +11,14 @@ public class BasicCameraTracker : MonoBehaviour {
     [SerializeField] float m_InterpolationFactor = 0.0f;
     public bool m_UseFixedUpdate = false;
     [SerializeField] float m_ZDistance = 10.0f, yOffset = 5;
+    private CameraShake cs;
 
-	void FixedUpdate () 
+    private void Start()
+    {
+        cs = GetComponent<CameraShake>();
+    }
+
+    void FixedUpdate () 
 	{
         if (m_UseFixedUpdate)
         {
@@ -23,6 +32,12 @@ public class BasicCameraTracker : MonoBehaviour {
         {
             Interpolate(Time.deltaTime);
         }
+    }
+
+    public void DoShake(float shakeDuration, float shakeStrength, int shakeVibrato)
+    {
+        
+        cs.ShakeCamera(shakeStrength, shakeDuration);
     }
 
     void Interpolate(float a_DeltaTime)

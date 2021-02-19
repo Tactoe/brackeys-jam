@@ -10,19 +10,16 @@ using UnityEngine.UI;
 public class IntroBattle : MonoBehaviour
 {
     [SerializeField] private Light light;
-    private Volume v;
+    [SerializeField] private Volume v;
     [SerializeField] private float animationDuration = 0.5f;
     [SerializeField] private Ease ease;
-    [SerializeField] private Image whiteOut;
     private LensDistortion lens;
     private bool doLightIntro;
 
 
     private void Start()
     {
-        doLightIntro = ActionRecorder.Instance.hasStarted;
-        whiteOut = GetComponent<Image>();
-        v = FindObjectOfType<Volume>();
+        doLightIntro = ActionRecorder.Instance.recordingForFirstTime;
         if (doLightIntro)
             LightIntro();
         else
@@ -41,8 +38,7 @@ public class IntroBattle : MonoBehaviour
 
     private void LightIntro()
     {
-        whiteOut.color = new Color(255, 255, 255, 1);
-        whiteOut.DOFade(0, animationDuration).SetEase(ease);
+        GameManager.Instance.FadeIn(animationDuration, Color.white);
     }
 
 
