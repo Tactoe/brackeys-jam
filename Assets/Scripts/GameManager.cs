@@ -9,7 +9,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject pauseMenu;
     public float GhostRecordSpeed = 0.1f;
-    public int fireplaceDialogueIndex = -1;
+    public int fireplaceDialogueIndex = 0;
+    public bool doDialogueOnDeath;
     
     void Awake()
     {
@@ -38,8 +39,6 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1;
         pauseMenu.SetActive(false);
-        if (scene.name == "Fireplace")
-            fireplaceDialogueIndex++;
     }
     
     void OnDisable()
@@ -51,7 +50,7 @@ public class GameManager : MonoBehaviour
     {
         if (Application.platform == RuntimePlatform.WebGLPlayer)
         {
-            SceneManager.LoadScene(SceneManager.GetSceneByName("MobileExit").buildIndex);
+            SceneManager.LoadScene("MobileExit");
         }
         else
         {
@@ -59,6 +58,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void LoadScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
+    }
 
     public void ReloadScene()
     {

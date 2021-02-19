@@ -6,7 +6,7 @@ public class StartAudio : MonoBehaviour
 {
     private AudioSource src;
 
-    [SerializeField] private float fadeTime, startTime;
+    public float fadeTime, startTime;
 
     [SerializeField] private Ease ease;
     // Start is called before the first frame update

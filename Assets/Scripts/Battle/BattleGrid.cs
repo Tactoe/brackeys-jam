@@ -15,7 +15,7 @@ public class BattleGrid : MonoBehaviour
         {
             for (int j = 0; j < y; j++)
             {
-                var tmp = Instantiate(cell, transform);
+                var tmp = Instantiate(cell, transform.Find("Cells"));
                 tmp.transform.localPosition = new Vector3(i, transform.position.y, j);
             }
         }

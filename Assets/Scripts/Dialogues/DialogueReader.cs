@@ -25,7 +25,7 @@ public class DialogueReader : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.KeypadEnter) || (inDialogue && Input.GetMouseButtonDown(0)))
+        if (inDialogue && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetMouseButtonDown(0)))
         {
             if (dialogueIndex < currentDialogue.dialogue.Count)
             {

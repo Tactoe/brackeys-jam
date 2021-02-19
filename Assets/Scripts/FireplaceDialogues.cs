@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
@@ -14,6 +15,14 @@ public class FireplaceDialogues : MonoBehaviour
 
     [SerializeField] private Dialogue[] dialogues;
     // Start is called before the first frame update
+    private void Awake()
+    {
+        if (GameManager.Instance.fireplaceDialogueIndex == 0)
+        {
+            FindObjectOfType<StartAudio>().startTime = 0;
+        }
+    }
+
     void Start()
     {
         img = GetComponent<Image>();
@@ -31,6 +40,7 @@ public class FireplaceDialogues : MonoBehaviour
 
     public void CloseDialogue()
     {
-        img.DOFade(1, blackoutDuration).OnComplete(GameManager.Instance.NextScene);
+        GameManager.Instance.fireplaceDialogueIndex++;
+        img.DOFade(1, blackoutDuration).OnComplete(() => GameManager.Instance.LoadScene("Battle"));
     }
 }

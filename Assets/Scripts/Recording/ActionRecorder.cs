@@ -40,6 +40,7 @@ public class ActionRecorder : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        if (SceneManager.GetActiveScene().name != "Battle") Destroy(gameObject);
         if (!hasStarted) return;
         
         previousTimeline = recordingTimeline;
@@ -47,8 +48,8 @@ public class ActionRecorder : MonoBehaviour
         recordingTimeline = new List<TimeNode>();
         if (previousTimeline != null && previousTimeline.Count > 0)
         {
-            BattleAudio.Instance.EnableSecondaryTrack(1);
-            FindObjectOfType<ActionReplayer>().LaunchReplay(previousTimeline);
+            if (SceneManager.GetActiveScene().name != "Battle") Destroy(gameObject);
+            FindObjectOfType<ActionReplayer>()?.LaunchReplay(previousTimeline);
         }
     }
     

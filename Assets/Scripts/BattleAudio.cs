@@ -31,6 +31,8 @@ public class BattleAudio : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        if (SceneManager.GetActiveScene().name != "Battle")
+            Destroy(gameObject);
     }
 
     public void EnableSecondaryTrack(int amount)

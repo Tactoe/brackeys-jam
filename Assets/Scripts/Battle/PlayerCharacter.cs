@@ -42,8 +42,16 @@ public class PlayerCharacter : Character
 
     public override void DeathFunction()
     {
-        BattleAudio.Instance.EnableSecondaryTrack(1);
-        GameManager.Instance.ReloadScene();
+        if (GameManager.Instance.doDialogueOnDeath)
+        {
+            GameManager.Instance.LoadScene("Fireplace");
+            GameManager.Instance.doDialogueOnDeath = false;
+        }
+        else
+        {
+            BattleAudio.Instance.EnableSecondaryTrack(1);
+            GameManager.Instance.ReloadScene();
+        }
         base.DeathFunction();
     }
 }

@@ -101,13 +101,12 @@ public class ShieldedEnemy : Character
         if (stamina < maxStamina) return false;
         
         stamina = 0;
+        Transform targetPawnTF = FindObjectOfType<PlayerCharacter>().transform.parent.Find("Cells");
         if (action == KeyCode.Alpha0)
         {
-            for (int i = 0; i < pawn.currentGrid.transform.childCount; i++)
+            for (int i = 0; i < targetPawnTF.childCount; i++)
             {
-                var obj = FindObjectOfType<PlayerCharacter>().transform.parent.GetChild(i);
-                if (transform.GetComponent<PlayerCharacter>() == null)
-                    Launch(obj.position);
+                    Launch(targetPawnTF.GetChild(i).position);
             }
         }
         base.TryAction(action);
