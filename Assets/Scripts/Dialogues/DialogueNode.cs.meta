@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 496cdeecd4754314c995cdbf5656b223
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - img: {instanceID: 0}
+  - leftSpeaker: {fileID: 21300000, guid: 065324f73e79e31409ee961dbf4640cc, type: 3}
+  - rightSpeaker: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
