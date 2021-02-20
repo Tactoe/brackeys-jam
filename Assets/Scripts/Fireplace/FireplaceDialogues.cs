@@ -28,7 +28,8 @@ public class FireplaceDialogues : MonoBehaviour
     void Start()
     {
         src = FindObjectOfType<StartAudio>();
-        GameManager.Instance.fadeImgCG.DOFade(0, blackoutDuration).OnComplete(() => StartCoroutine(LaunchDialogue()));
+        StartCoroutine(LaunchDialogue());
+        //GameManager.Instance.fadeImgCG.DOFade(0, blackoutDuration).OnComplete(() => StartCoroutine(LaunchDialogue()));
     }
 
 

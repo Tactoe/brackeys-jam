@@ -83,7 +83,6 @@ public class DialogueReader : MonoBehaviour
             Color color;
             nameText.transform.parent.gameObject.SetActive(true);
             nameText.text = node.speakerName;
-            print(node.speakerName);
             if (node.speakerName == "Id")
                 nameText.transform.parent.GetComponent<Image>().color = new Color(0.38f, 0.09f, 0.55f);
             if (node.speakerName == "Id (past)")
