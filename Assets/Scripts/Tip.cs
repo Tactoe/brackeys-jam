@@ -16,7 +16,7 @@ public class Tip : MonoBehaviour
 
     IEnumerator FadeOut()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(3f);
         img.DOFade(0, 3).OnComplete(() => Destroy(gameObject));
     }
     

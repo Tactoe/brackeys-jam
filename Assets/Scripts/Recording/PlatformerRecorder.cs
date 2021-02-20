@@ -64,8 +64,7 @@ public class PlatformerRecorder : MonoBehaviour
         StopAllCoroutines();
         print(DOTween.KillAll());
         if (!hasStarted
-            || (SceneManager.GetActiveScene().buildIndex != SceneManager.GetSceneByName("Platform").buildIndex
-            && SceneManager.GetActiveScene().buildIndex != SceneManager.GetSceneByName("FinalPlat").buildIndex))
+            || SceneManager.GetActiveScene().buildIndex != SceneManager.GetSceneByName("FinalPlat").buildIndex)
             return;
         isRecording = false;
         if (recordingTimeline != null && recordingTimeline.Count > 0)

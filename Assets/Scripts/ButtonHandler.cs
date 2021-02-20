@@ -20,6 +20,6 @@ public class ButtonHandler : MonoBehaviour
     public void StartGame()
     {
         c.sortingOrder = 0;
-        GameManager.Instance.LoadSceneFade("Platform");
+        GameManager.Instance.LoadSceneFade("PlatformAdditiveBase");
     }
 }

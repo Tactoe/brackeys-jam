@@ -44,14 +44,17 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        if (mode == LoadSceneMode.Additive) return;
         DOTween.KillAll();
         Time.timeScale = 1;
+        print(SceneManager.GetActiveScene().name);
         if (SceneManager.GetActiveScene().name == "Battle" && fireplaceDialogueIndex == 0 && fadeImgCG != null)
         {
             Instantiate(battleTip, fadeImgCG.transform.parent);
         }
-        if (SceneManager.GetActiveScene().name == "Platform" && fireplaceDialogueIndex == 0 && fadeImgCG != null)
+        if (SceneManager.GetActiveScene().name == "PlatformAdditiveBase")
         {
+            SceneManager.LoadScene("Scenes/PlatformAdditiveSetup" + (fireplaceDialogueIndex + 1), LoadSceneMode.Additive);
         }
         pauseMenu.SetActive(false);
     }

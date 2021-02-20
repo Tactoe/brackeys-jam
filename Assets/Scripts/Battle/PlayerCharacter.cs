@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
-using TMPro.EditorUtilities;
 using UnityEngine;
 
 public class PlayerCharacter : Character
@@ -14,23 +13,33 @@ public class PlayerCharacter : Character
     {
         base.Start();
         rec = FindObjectOfType<ActionRecorder>();
+        StartCoroutine(HandleHealth());
     }
 
     // Update is called once per frame
     new void Update()
     {
         base.Update();
-        if (hurtAnimationPlaying)
-        {
-            uiSprite.sprite = hurtSprite;
-            uiSprite.rectTransform.sizeDelta = new Vector2(637, 849);
-        }
-        else if (uiSprite.sprite != charSprite)
-        {
-            uiSprite.sprite = health > 20 ? charSprite : criticalSprite;
-            uiSprite.rectTransform.sizeDelta = health > 20 ? new Vector2(499, 937) : new Vector2(394, 820);
-        }
         ActionKeyPressed();
+    }
+
+    IEnumerator HandleHealth()
+    {
+        while (!dead)
+        {
+            if (hurtAnimationPlaying)
+            {
+                uiSprite.sprite = hurtSprite;
+                uiSprite.rectTransform.sizeDelta = new Vector2(637, 849);
+            }
+            else if (uiSprite.sprite != charSprite)
+            {
+                uiSprite.sprite = health > 20 ? charSprite : criticalSprite;
+                uiSprite.rectTransform.sizeDelta = health > 20 ? new Vector2(499, 937) : new Vector2(394, 820);
+            }
+
+            yield return new WaitForSeconds(0.15f);
+        }
     }
 
     new bool TryAction(KeyCode action)

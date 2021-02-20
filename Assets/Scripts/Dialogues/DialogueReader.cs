@@ -104,6 +104,12 @@ public class DialogueReader : MonoBehaviour
         if (img != null)
         {
             target.sprite = img;
+            if (img.name == "Id hurt")
+                target.rectTransform.sizeDelta = new Vector2(637, 849);
+            else if (img.name == "Id down")
+                target.rectTransform.sizeDelta =new Vector2(394, 820);
+            else
+                target.rectTransform.sizeDelta = new Vector2(499, 937);
             target.gameObject.SetActive(true);
         }
         else
