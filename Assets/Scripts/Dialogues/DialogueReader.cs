@@ -83,12 +83,11 @@ public class DialogueReader : MonoBehaviour
             Color color;
             nameText.transform.parent.gameObject.SetActive(true);
             nameText.text = node.speakerName;
+            print(node.speakerName);
             if (node.speakerName == "Id")
-                nameText.transform.parent.GetComponent<Image>().color = new Color(92, 75, 108);
-            if (node.speakerName == "Id (Past)")
-                nameText.transform.parent.GetComponent<Image>().color = new Color(92, 75, 108);
-            if (node.speakerName == "Gauntlet")
-                nameText.transform.parent.GetComponent<Image>().color = new Color(14, 20, 10);
+                nameText.transform.parent.GetComponent<Image>().color = new Color(0.38f, 0.09f, 0.55f);
+            if (node.speakerName == "Id (past)")
+                nameText.transform.parent.GetComponent<Image>().color = new Color(0.1f, 0.8f, 0.75f);
         }
         else
             nameText.transform.parent.gameObject.SetActive(false);

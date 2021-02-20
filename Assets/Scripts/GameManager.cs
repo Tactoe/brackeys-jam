@@ -47,7 +47,6 @@ public class GameManager : MonoBehaviour
         if (mode == LoadSceneMode.Additive) return;
         DOTween.KillAll();
         Time.timeScale = 1;
-        print(SceneManager.GetActiveScene().name);
         if (SceneManager.GetActiveScene().name == "Battle" && fireplaceDialogueIndex == 0 && fadeImgCG != null)
         {
             Instantiate(battleTip, fadeImgCG.transform.parent);
