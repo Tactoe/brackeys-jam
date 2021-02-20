@@ -38,13 +38,15 @@ public class MonsterManager : MonoBehaviour
         {
             yield return new WaitForSeconds(1f);
         }
+
+        FindObjectOfType<PlayerCharacter>().canAct = false;
         GameManager.Instance.monsterWaveIndex++;
         GameManager.Instance.doDialogueOnDeath = true;
         FindObjectOfType<BattleAudio>().FadeOut(3);
         if (GameManager.Instance.fireplaceDialogueIndex == 4)
-            GameManager.Instance.LoadSceneFade("PlatformAdditiveBase", 3, Color.black);
+            GameManager.Instance.LoadSceneFade("FinalPlat", 3, Color.black);
         else
-            GameManager.Instance.LoadSceneFade("PlatformFinal", 3, Color.black);
+            GameManager.Instance.LoadSceneFade("PlatformAdditiveBase", 3, Color.black);
     }
 
     // Update is called once per frame

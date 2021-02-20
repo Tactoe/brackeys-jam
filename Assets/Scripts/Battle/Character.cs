@@ -27,6 +27,7 @@ public class Character : MonoBehaviour
     [SerializeField] protected Image shieldIcon;
     [SerializeField] protected Image uiSprite;
     protected bool dead, hurtAnimationPlaying;
+    public bool canAct = true;
     protected TextMeshProUGUI nameText, healthText;
 
     protected readonly KeyCode[] keyCodes = new []
@@ -81,7 +82,7 @@ public class Character : MonoBehaviour
 
     public bool TryAction(KeyCode action)
     {
-        if (dead) return false;
+        if (dead || !canAct) return false;
         if (action == KeyCode.Space)
         {
             if (anim != null)
@@ -100,7 +101,7 @@ public class Character : MonoBehaviour
     
     public virtual void GetHit(float damage)
     {
-        if (dead) return;
+        if (dead || !canAct) return;
         float hurtDuration = 0.3f;
         if (!hurtAnimationPlaying)
         {

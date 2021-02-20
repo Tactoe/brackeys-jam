@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     public GameObject pauseMenu;
     [SerializeField] private GameObject battleTip, platformTip, jumpTip;
     public float GhostRecordSpeed = 0.1f, defaultDuration = 5, burnSpeed;
-    public int fireplaceDialogueIndex = 0, monsterWaveIndex = 0;
+    public int fireplaceDialogueIndex = 0, monsterWaveIndex = 0, battleTimelinesAllowed = 1;
     public bool doDialogueOnDeath;
 
     public Image fadeImg;
@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     private float burnAmount = 0;
     public int diedInFinalPlat = 0;
     private bool isBurning;
+    
     
     void Awake()
     {

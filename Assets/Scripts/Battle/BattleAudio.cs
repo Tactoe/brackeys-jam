@@ -12,6 +12,7 @@ public class BattleAudio : MonoBehaviour
     [SerializeField] private AudioSource main;
     [SerializeField] private AudioSource f1;
     [SerializeField] private AudioSource f2;
+    int currentTracks = 0;
 
     void Awake()
     {
@@ -47,18 +48,20 @@ public class BattleAudio : MonoBehaviour
             f2.DOFade(0, duration);
     }
 
-    public void EnableSecondaryTrack(int amount)
+    public void EnableSecondaryTrack()
     {
-        if (amount == 1 && !f1.isPlaying)
+        currentTracks++;
+        if (currentTracks == 1 && !f1.isPlaying)
         {
             f1.time = main.time;
             f1.Play();
         }
-        if (amount == 2 && !f2.isPlaying)
+        if (currentTracks == 2 && !f2.isPlaying && GameManager.Instance.battleTimelinesAllowed == 2)
         {
             f2.time = main.time;
             f2.Play();
         }
+
     }
     
     void OnDisable()

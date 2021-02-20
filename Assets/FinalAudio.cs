@@ -10,7 +10,8 @@ public class FinalAudio : MonoBehaviour
 {
     public static FinalAudio Instance;
 
-    private AudioSource src;
+    [SerializeField] private AudioSource src, fireSound;
+    
     [SerializeField] private Material skybox;
 
     [SerializeField] private AudioClip endingSong;
@@ -29,14 +30,14 @@ public class FinalAudio : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        if (GameManager.Instance.diedInFinalPlat <= 3)
-            Destroy(gameObject);
             
     }
 
     void Start()
     {
-        src = GetComponent<AudioSource>();
+        GameManager.Instance.fadeImgCG.DOFade(0, 4);
+        if (GameManager.Instance.diedInFinalPlat >= 3)
+            src.Play();
         DontDestroyOnLoad(gameObject);
     }
     

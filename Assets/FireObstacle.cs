@@ -7,13 +7,16 @@ public class FireObstacle : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        print("OOF OW OW");
+        GameManager.Instance.SetBurn(true);
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
         GameManager.Instance.SetBurn(true);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        print("aaaa");
         GameManager.Instance.SetBurn(false);
     }
 }

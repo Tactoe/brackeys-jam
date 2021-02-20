@@ -6,7 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class ActionRecorder : MonoBehaviour
 {
-    private List<TimeNode> recordingTimeline, previousTimeline;
+    private List<TimeNode> recordingTimeline;
+    private List<List<TimeNode>> allTimelines;
     
     private float lastTimeSaved;
     public bool recordingForFirstTime;
@@ -28,6 +29,7 @@ public class ActionRecorder : MonoBehaviour
     
     void Start()
     {
+        allTimelines = new List<List<TimeNode>>();
         recordingTimeline = new List<TimeNode>();
         lastTimeSaved = Time.time;
         recordingForFirstTime = true;
@@ -42,14 +44,20 @@ public class ActionRecorder : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name != "Battle") Destroy(gameObject);
         if (!recordingForFirstTime) return;
-        
-        previousTimeline = recordingTimeline;
+
+        allTimelines.Add(recordingTimeline);
+        if (allTimelines.Count > GameManager.Instance.battleTimelinesAllowed)
+            allTimelines.RemoveAt(0);
         lastTimeSaved = Time.time;
         recordingTimeline = new List<TimeNode>();
-        if (previousTimeline != null && previousTimeline.Count > 0)
+        foreach (var timeline in allTimelines)
         {
-            if (SceneManager.GetActiveScene().name != "Battle") Destroy(gameObject);
-            FindObjectOfType<ActionReplayer>()?.LaunchReplay(previousTimeline);
+            
+            if (timeline != null && timeline.Count > 0)
+            {
+                //if (SceneManager.GetActiveScene().name != "Battle") Destroy(gameObject);
+                FindObjectOfType<ActionReplayer>()?.LaunchReplay(timeline);
+            }
         }
     }
     

@@ -28,7 +28,7 @@ public class BouncePad : MonoBehaviour
         src = GetComponent<AudioSource>();
         if (height == accords.Length - 1)
             bounceStrength *= 2;
-        bounceStrength += height;
+        bounceStrength += height * 2;
         height = Mathf.Clamp(height, 0, accords.Length);
         src.clip = accords[Mathf.FloorToInt(height)];
     }

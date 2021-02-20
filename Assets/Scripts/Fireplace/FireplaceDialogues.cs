@@ -44,6 +44,8 @@ public class FireplaceDialogues : MonoBehaviour
     {
         GameManager.Instance.fireplaceDialogueIndex++;
         src.MusicFadeOut(blackoutDuration - 0.5f);
+        if (GameManager.Instance.fireplaceDialogueIndex == 2)
+            GameManager.Instance.battleTimelinesAllowed++;
         if (GameManager.Instance.fireplaceDialogueIndex == 5)
             GameManager.Instance.LoadSceneFade("FinalPlat", blackoutDuration, Color.black);
         else

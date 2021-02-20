@@ -76,7 +76,7 @@ public class PlayerCharacter : Character
         }
         else
         {
-            BattleAudio.Instance.EnableSecondaryTrack(1);
+            BattleAudio.Instance.EnableSecondaryTrack();
             GameManager.Instance.ReloadScene();
         }
     }

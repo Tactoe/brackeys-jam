@@ -35,7 +35,7 @@ public class GhostPlatformer : MonoBehaviour
     {
         i++;
         if (i < previousTimeline.Length)
-            transform.DOMove(previousTimeline[i], animationDuration).OnComplete(DoPath);
+            transform.DOMove(previousTimeline[i], animationDuration / 1.7f).OnComplete(DoPath);
         else
             DeathFunction();
     }
