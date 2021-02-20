@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class MonsterManager : MonoBehaviour
@@ -33,16 +34,14 @@ public class MonsterManager : MonoBehaviour
 
     IEnumerator CheckMonsters()
     {
-        while (true)
+        while (FindObjectsOfType<ShieldedEnemy>().Length != 0)
         {
-            if (FindObjectsOfType<ShieldedEnemy>().Length == 0)
-            {
-                GameManager.Instance.monsterWaveIndex++;
-                GameManager.Instance.doDialogueOnDeath = true;
-                GameManager.Instance.LoadScene("Platform");
-            }
             yield return new WaitForSeconds(1f);
         }
+        GameManager.Instance.monsterWaveIndex++;
+        GameManager.Instance.doDialogueOnDeath = true;
+        FindObjectOfType<BattleAudio>().FadeOut(3);
+        GameManager.Instance.LoadSceneFade("Platform", 3, Color.black);
     }
 
     // Update is called once per frame

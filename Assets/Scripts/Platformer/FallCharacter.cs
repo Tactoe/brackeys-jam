@@ -12,8 +12,6 @@ public class FallCharacter : MonoBehaviour
 
     [SerializeField] private GameObject hero, impactParticle;
 
-    [SerializeField] private GameObject thoughtBubble;
-    // Start is called before the first frame update
     void Start()
     {
         GameManager.Instance.fadeImgCG.DOFade(0, 8);
@@ -23,7 +21,6 @@ public class FallCharacter : MonoBehaviour
         Camera.main.transform.DORotate(Vector3.right * 8.5f, 15);
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (touchedGround)
@@ -33,7 +30,6 @@ public class FallCharacter : MonoBehaviour
                 hero.SetActive(true);
                 Camera.main.GetComponent<BasicCameraTracker>().m_Target = hero;
                 Camera.main.GetComponent<BasicCameraTracker>().m_UseFixedUpdate = false;
-                StopCoroutine(GetupBubble());
                 Destroy(gameObject);
             }
         }
@@ -46,13 +42,7 @@ public class FallCharacter : MonoBehaviour
             touchedGround = true;
             var tmp = Instantiate(impactParticle, transform.position, Quaternion.identity);
             tmp.GetComponent<ParticleSystem>().Play();
-            StartCoroutine(GetupBubble());
+            GameManager.Instance.PlatformTip();
         }
-    }
-
-    IEnumerator GetupBubble()
-    {
-        yield return new WaitForSeconds(7);
-        Instantiate(thoughtBubble, FindObjectOfType<Canvas>().transform);
     }
 }

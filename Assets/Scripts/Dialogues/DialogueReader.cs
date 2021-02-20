@@ -60,7 +60,7 @@ public class DialogueReader : MonoBehaviour
             else if (dialogueText.text[dialogueText.maxVisibleCharacters] == ',')
                 yield return new WaitForSeconds(0.08f);
             else
-                yield return new WaitForSeconds(0.04f);
+                yield return new WaitForSeconds(0.02f);
             dialogueText.maxVisibleCharacters++;
         }
 

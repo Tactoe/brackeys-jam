@@ -10,11 +10,12 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     public GameObject pauseMenu;
+    [SerializeField] private GameObject battleTip, platformTip, jumpTip;
     public float GhostRecordSpeed = 0.1f, defaultDuration = 5;
     public int fireplaceDialogueIndex = 0, monsterWaveIndex = 0;
     public bool doDialogueOnDeath;
 
-    [SerializeField] public Image fadeImg;
+    public Image fadeImg;
     public CanvasGroup fadeImgCG;
     
     void Awake()
@@ -45,7 +46,30 @@ public class GameManager : MonoBehaviour
     {
         DOTween.KillAll();
         Time.timeScale = 1;
+        if (SceneManager.GetActiveScene().name == "Battle" && fireplaceDialogueIndex == 0 && fadeImgCG != null)
+        {
+            Instantiate(battleTip, fadeImgCG.transform.parent);
+        }
+        if (SceneManager.GetActiveScene().name == "Platform" && fireplaceDialogueIndex == 0 && fadeImgCG != null)
+        {
+        }
         pauseMenu.SetActive(false);
+    }
+
+    public void PlatformTip()
+    {
+        StartCoroutine(PlatformTipDelayed());
+    }
+
+    IEnumerator PlatformTipDelayed()
+    {
+        yield return new WaitForSeconds(3);
+        Instantiate(platformTip, fadeImgCG.transform.parent);
+    }
+    
+    public void JumpTip()
+    {
+        Instantiate(jumpTip, fadeImgCG.transform.parent);
     }
     
     void OnDisable()
