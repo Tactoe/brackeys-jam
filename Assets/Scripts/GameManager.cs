@@ -11,12 +11,15 @@ public class GameManager : MonoBehaviour
 
     public GameObject pauseMenu;
     [SerializeField] private GameObject battleTip, platformTip, jumpTip;
-    public float GhostRecordSpeed = 0.1f, defaultDuration = 5;
+    public float GhostRecordSpeed = 0.1f, defaultDuration = 5, burnSpeed;
     public int fireplaceDialogueIndex = 0, monsterWaveIndex = 0;
     public bool doDialogueOnDeath;
 
     public Image fadeImg;
-    public CanvasGroup fadeImgCG;
+    public CanvasGroup fadeImgCG, burnFadeCG;
+    private float burnAmount = 0;
+    public int diedInFinalPlat = 0;
+    private bool isBurning;
     
     void Awake()
     {
@@ -130,6 +133,9 @@ public class GameManager : MonoBehaviour
 
     public void MainMenu()
     {
+        fireplaceDialogueIndex = 0;
+        monsterWaveIndex = 0;
+        diedInFinalPlat = 0;
         RemoveAllInstances();
         SceneManager.LoadScene(0);
     }
@@ -144,6 +150,11 @@ public class GameManager : MonoBehaviour
            Destroy(PlatformerRecorder.Instance.gameObject); 
     }
 
+    public void SetBurn(bool b)
+    {
+        isBurning = b;
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape) && SceneManager.GetActiveScene().buildIndex != 0)
@@ -155,6 +166,31 @@ public class GameManager : MonoBehaviour
                 Time.timeScale = pauseMenu.activeInHierarchy ? 0 : 1;
             }
         }
+
+        if (isBurning)
+            burnAmount += Time.deltaTime * burnSpeed;
+        else if (burnAmount > 0)
+            burnAmount -= Time.deltaTime;
+        
+        if (isBurning && burnAmount > 1)
+        {
+            isBurning = false;
+            if (SceneManager.GetActiveScene().name == "FinalPlat" && fireplaceDialogueIndex == 4 &&
+                diedInFinalPlat == 3)
+            {
+                diedInFinalPlat++; 
+                LoadScene("Fireplace");
+                fadeImgCG.alpha = 1;
+                fadeImg.color = burnFadeCG.GetComponent<Image>().color;
+            }
+            else
+            {
+                if (SceneManager.GetActiveScene().name == "FinalPlat")
+                    diedInFinalPlat++;
+                ReloadScene();
+            }
+        }
+        burnFadeCG.alpha = burnAmount;
 
         if (Input.GetKeyDown(KeyCode.N))
         {

@@ -13,6 +13,7 @@ public class CustomDoubleJump : GroundedControllerAbilityModule
 
     [SerializeField] bool m_ResetDoubleJumpsAfterTouchingWall = false;
     [SerializeField] bool m_ResetDoubleJumpsAfterTouchingEdge = false;
+    [SerializeField] private GameObject jumpParticle;
 
     int m_DoubleJumpsLeft;
 
@@ -39,6 +40,7 @@ public class CustomDoubleJump : GroundedControllerAbilityModule
             FindObjectOfType<PlatformerRecorder>()?.RecordDoubleJump();
             m_AmountOfDoubleJumpsAllowed = 0;
             jumpVelocity = m_CharacterController.GetJumpVelocity();
+            Instantiate(jumpParticle, m_CharacterController.transform.position, Quaternion.identity);
         }
         Vector2 newVelocity = m_ControlledCollider.GetVelocity();
         newVelocity.y = Mathf.Max(0.0f, newVelocity.y);

@@ -28,8 +28,8 @@ public class FireplaceDialogues : MonoBehaviour
     void Start()
     {
         src = FindObjectOfType<StartAudio>();
-        StartCoroutine(LaunchDialogue());
-        //GameManager.Instance.fadeImgCG.DOFade(0, blackoutDuration).OnComplete(() => StartCoroutine(LaunchDialogue()));
+        //StartCoroutine(LaunchDialogue());
+        GameManager.Instance.fadeImgCG.DOFade(0, blackoutDuration).OnComplete(() => StartCoroutine(LaunchDialogue()));
     }
 
 
@@ -44,6 +44,9 @@ public class FireplaceDialogues : MonoBehaviour
     {
         GameManager.Instance.fireplaceDialogueIndex++;
         src.MusicFadeOut(blackoutDuration - 0.5f);
-        GameManager.Instance.LoadSceneFade("Battle", blackoutDuration, Color.black);
+        if (GameManager.Instance.fireplaceDialogueIndex == 5)
+            GameManager.Instance.LoadSceneFade("FinalPlat", blackoutDuration, Color.black);
+        else
+            GameManager.Instance.LoadSceneFade("Battle", blackoutDuration, Color.black);
     }
 }

@@ -6,22 +6,23 @@ using UnityEngine.SceneManagement;
 
 public class DeathBlock : MonoBehaviour
 {
-    private bool deathIsActive;
     // Start is called before the first frame update
     void Start()
     {
-        
+        Invoke( nameof(SpawnFire), 10);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        deathIsActive = true;
-        GetComponent<MeshRenderer>().enabled = true;
+        SpawnFire();
     }
 
-    private void OnTriggerEnter(Collider other)
+    void SpawnFire()
     {
-       if (deathIsActive) 
-           GameManager.Instance.ReloadScene();
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            transform.GetChild(i).gameObject.SetActive(true);
+        }
     }
+
 }
