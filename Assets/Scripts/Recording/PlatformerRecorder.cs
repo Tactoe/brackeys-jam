@@ -9,7 +9,7 @@ using DG.Tweening;
 
 public class PlatformerRecorder : MonoBehaviour
 {
-    [SerializeField] private int maxTimelines = 5, maxActions = 1000;
+    [SerializeField] public int maxTimelines = 5, maxActions = 1000;
     private List<List<Vector3>> allTimelines;
     [SerializeField] private List<float> bounceTimeline;
     [SerializeField] private List<Vector3> bouncePositions;
@@ -59,6 +59,11 @@ public class PlatformerRecorder : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
+    public bool IsTimelineFilled()
+    {
+        return (allTimelines.Count == maxTimelines);
+    }
+
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         StopAllCoroutines();
@@ -73,6 +78,7 @@ public class PlatformerRecorder : MonoBehaviour
         if (allTimelines.Count > maxTimelines)
         {
             bounceTimeline.RemoveAt(0); 
+            bouncePositions.RemoveAt(0); 
             allTimelines.RemoveAt(0);
         } 
         if (allTimelines != null && allTimelines.Count > 0)

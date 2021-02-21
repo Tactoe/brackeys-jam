@@ -12,6 +12,7 @@ public class Bullet : MonoBehaviour
     public bool isLaunched;
 
     public string targetTag;
+    public bool targetsAll;
 
     public Vector3 targetPos;
     [SerializeField] private GameObject deathDrop;
@@ -48,10 +49,13 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!isLaunched && other.gameObject.CompareTag(targetTag))
+        if (!isLaunched && (other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Player")))
         {
-            other.gameObject.GetComponent<Character>().GetHit(damage);
-            Destroy(gameObject);
+            if (other.gameObject.CompareTag(targetTag) || targetsAll)
+            {
+                other.gameObject.GetComponent<Character>().GetHit(damage);
+                Destroy(gameObject);
+            }
         }
     }
 }

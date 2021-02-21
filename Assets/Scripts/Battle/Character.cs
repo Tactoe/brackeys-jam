@@ -8,7 +8,8 @@ using UnityEngine.UI;
 public class Character : MonoBehaviour
 {
     [SerializeField] private float refillAmount;
-    [SerializeField] private bool targetsPlayer; 
+    [SerializeField] protected bool targetsPlayer; 
+    [SerializeField] protected bool targetsAll; 
     public Pawn pawn;
     protected Animator anim;
     
@@ -114,13 +115,10 @@ public class Character : MonoBehaviour
         health = Mathf.Max(0, health);
         healthBar.fillAmount = health / maxHealth;
         healthText.text = "Health: " + health + "/" + maxHealth;
-        if (health > 0)
-        {
-        }
-        else
+        if (health <= 0)
         {
             dead = true;
-            DeathFunction();
+            uiSprite.DOColor(new Color(80, 80, 80), 0.3f).OnComplete(DeathFunction);
         }
     }
 
@@ -143,6 +141,7 @@ public class Character : MonoBehaviour
     {
         var tmp = Instantiate(bulletPrefab);
         Bullet b = tmp.GetComponent<Bullet>();
+        b.targetsAll = targetsAll;
         b.targetTag = targetsPlayer ? "Player" : "Enemy";
         if (b.isLaunched)
             b.targetPos = FindObjectOfType<PlayerCharacter>().transform.position;

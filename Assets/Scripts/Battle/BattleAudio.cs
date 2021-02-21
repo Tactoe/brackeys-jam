@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -48,18 +49,25 @@ public class BattleAudio : MonoBehaviour
             f2.DOFade(0, duration);
     }
 
+    private void Update()
+    {
+        var time = main.timeSamples;
+        f1.timeSamples = time;
+        f2.timeSamples = time;
+    }
+
     public void EnableSecondaryTrack()
     {
         currentTracks++;
         if (currentTracks == 1 && !f1.isPlaying)
         {
-            f1.time = main.time;
             f1.Play();
+            f1.timeSamples = main.timeSamples;
         }
         if (currentTracks == 2 && !f2.isPlaying && GameManager.Instance.battleTimelinesAllowed == 2)
         {
-            f2.time = main.time;
             f2.Play();
+            f2.timeSamples = main.timeSamples;
         }
 
     }

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using DG.Tweening;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,12 +17,11 @@ public class GameManager : MonoBehaviour
     public bool doDialogueOnDeath;
 
     public Image fadeImg;
-    public CanvasGroup fadeImgCG, burnFadeCG;
+    public CanvasGroup fadeImgCG, burnFadeCG, textCG1, textCG2;
     private float burnAmount = 0;
     public int diedInFinalPlat = 0;
     private bool isBurning;
-    
-    
+
     void Awake()
     {
         if (Instance == null)
@@ -58,6 +58,14 @@ public class GameManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "PlatformAdditiveBase")
         {
             SceneManager.LoadScene("Scenes/PlatformAdditiveSetup" + (fireplaceDialogueIndex + 1), LoadSceneMode.Additive);
+        }
+        if (SceneManager.GetActiveScene().name == "Main Menu")
+        {
+            fireplaceDialogueIndex = 0;
+            monsterWaveIndex = 0;
+            diedInFinalPlat = 0;
+            battleTimelinesAllowed = 1;
+            doDialogueOnDeath = true;
         }
         pauseMenu.SetActive(false);
     }
@@ -137,8 +145,11 @@ public class GameManager : MonoBehaviour
         fireplaceDialogueIndex = 0;
         monsterWaveIndex = 0;
         diedInFinalPlat = 0;
+        battleTimelinesAllowed = 1;
+        doDialogueOnDeath = true;
         RemoveAllInstances();
         SceneManager.LoadScene(0);
+        FadeIn(3, Color.black);
     }
 
     void RemoveAllInstances()
@@ -177,7 +188,7 @@ public class GameManager : MonoBehaviour
         {
             isBurning = false;
             if (SceneManager.GetActiveScene().name == "FinalPlat" && fireplaceDialogueIndex == 4 &&
-                diedInFinalPlat == 3)
+                diedInFinalPlat == 2)
             {
                 diedInFinalPlat++; 
                 LoadScene("Fireplace");
@@ -192,11 +203,6 @@ public class GameManager : MonoBehaviour
             }
         }
         burnFadeCG.alpha = burnAmount;
-
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            NextScene();
-        }
     }
 
 }

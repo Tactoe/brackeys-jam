@@ -1,6 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
+
 //--------------------------------------------------------------------
 //DoubleJump module is a movement ability
 //When in the air, allow more jumps
@@ -30,12 +33,19 @@ public class CustomDoubleJump : GroundedControllerAbilityModule
         m_DoubleJumpsLeft -= 1;
     }
 
+    private bool canDoubleJump;
+    private void Start()
+    {
+        canDoubleJump = GameManager.Instance.diedInFinalPlat >= 2;
+    }
+
     //Execute jump (lasts one update)
     //Called for every fixedupdate that this module is active
     public override void FixedUpdateModule()
     {
+        if (!canDoubleJump) return;
         float jumpVelocity = m_JumpVelocity;
-        if (m_UseNormalJumpVelocity)
+        if (m_UseNormalJumpVelocity && canDoubleJump)
         {
             FindObjectOfType<PlatformerRecorder>()?.RecordDoubleJump();
             m_AmountOfDoubleJumpsAllowed = 0;

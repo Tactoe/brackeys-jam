@@ -14,7 +14,7 @@ public class PlatformerReplayer : MonoBehaviour
         {
             GameObject tmp = Instantiate(dopelGO);
             if (bounceTimeline[i] > 0)
-                StartCoroutine(SpawnBounce(bounceTimeline[i] / 1.7f, bouncePositions[i]));
+                StartCoroutine(SpawnBounce(bounceTimeline[i] / 1.1f, bouncePositions[i]));
             GhostPlatformer g = tmp.GetComponent<GhostPlatformer>();
             g.previousTimeline = _previousTimelines[i].ToArray();
             g.canDoReplay = true;//(i + 1 == _previousTimelines.Count);

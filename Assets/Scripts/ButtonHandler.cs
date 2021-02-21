@@ -8,6 +8,7 @@ public class ButtonHandler : MonoBehaviour
     private Canvas c;
     private void Start()
     {
+        GameManager.Instance.FadeIn(3, Color.black);
         c = transform.parent.GetComponent<Canvas>();
     }
 

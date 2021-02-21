@@ -1,6 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Random = UnityEngine.Random;
+
 //--------------------------------------------------------------------
 //This class registers to an CharacterControllerBase's OnJump event and spawns particles when a jump occurs
 //--------------------------------------------------------------------
@@ -9,11 +12,12 @@ public class OnJumpParticleSpawner : MonoBehaviour {
     [SerializeField] ControlledCapsuleCollider m_Collider = null;
     [SerializeField] ParticleSystem m_ParticleSystem = null;
     [SerializeField] int m_EmissionCount = 0;
+    
+    [SerializeField] private AudioSource src;
     void OnEnable()
     {
         m_CharacterController.OnJump += SpawnParticles;
     }
-
 
     void OnDisable()
     {
@@ -47,7 +51,11 @@ public class OnJumpParticleSpawner : MonoBehaviour {
             valid = true;
         }
         if (valid)
-        { 
+        {
+            src.pitch += Random.Range(-0.3f, 0.3f);
+            src.Play();
+            if (src.pitch < 0.9f || src.pitch > 2)
+                src.pitch = 1.4f;
             m_ParticleSystem.transform.position = position;
             m_ParticleSystem.transform.LookAt(position + normal, Vector3.back);
             m_ParticleSystem.Emit(m_EmissionCount);

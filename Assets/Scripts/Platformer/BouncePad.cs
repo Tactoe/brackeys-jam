@@ -30,7 +30,9 @@ public class BouncePad : MonoBehaviour
             bounceStrength *= 2;
         bounceStrength += height * 2;
         height = Mathf.Clamp(height, 0, accords.Length);
-        src.clip = accords[Mathf.FloorToInt(height)];
+        if (FindObjectOfType<PlatformerRecorder>().IsTimelineFilled())
+            height = 7;
+        src.clip = accords[height];
     }
 
     private void OnTriggerEnter(Collider other)
@@ -49,7 +51,7 @@ public class BouncePad : MonoBehaviour
             other.GetComponent<CapsuleMovingColliderSolver>().enabled = false;
             other.GetComponent<ControlledCapsuleCollider>().enabled = false;
             other.GetComponent<CapsuleVolumeIntegrity>().enabled = false;
-            rb.AddForce(0, 100, 0, ForceMode.VelocityChange);
+            rb.AddForce(0, 65, 0, ForceMode.VelocityChange);
             FindObjectOfType<FinalAudio>().PlayEnding();
         }
         //var tmp = other.GetComponent<Rigidbody>().velocity;

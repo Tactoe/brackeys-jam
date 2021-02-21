@@ -9,7 +9,6 @@ public class WallJumpHelpStart : MonoBehaviour
 
     public void SendTriggerMessage(bool isStart)
     {
-        print("dodig");
         if (isStart && !hasEntered)
         {
             StartCoroutine(ShowTip());
@@ -24,7 +23,7 @@ public class WallJumpHelpStart : MonoBehaviour
 
     IEnumerator ShowTip()
     {
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(5);
         if (!hasReachedEnd)
             GameManager.Instance.JumpTip();
     }
